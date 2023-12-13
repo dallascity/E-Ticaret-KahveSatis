@@ -6,9 +6,30 @@ function errorAlert($error) {
         title: '$error',  
     }) </script>";
 }
+function successAlert($title, $message, $url) {
+    echo '<script>
+            Swal.fire({
+                icon: "success",
+                title: "' . $title . '",
+                text: "' . $message . '",
+                confirmButtonText: "Kapat"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = "' . $url . '";
+                }
+            });
+        </script>';
+}
 
 function route($route){
     echo "<script>window.location.href = '$route';</script>";
+}
+
+function removeExtraSpaces($string)
+{
+    $string = preg_replace('/\s+/', ' ', $string);
+    $string = trim($string);
+    return $string;
 }
 
 $iller = array('','Adana', 'Adıyaman', 'Afyon', 'Ağrı', 'Amasya', 'Ankara', 'Antalya', 'Artvin',
