@@ -4,8 +4,4 @@ RewriteCond %{REQUEST_FİLENAME} !-d
 RewriteCond %{REQUEST_FİLENAME} !-f
 
 
-RewriteRule ^anasayfa$ index.php [L,NC]
-
-
-
 

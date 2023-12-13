@@ -33,7 +33,7 @@ include 'inc/header.php';
             <div class="additional_info">
                 <div class="input-group mb-2">
                     <input type="number" class="form-control" placeholder="3626 adet kaldı" min="0">
-                    <button class="btn btn-success"><i class="fas fa-shopping-cart"></i> Sepete Ekle</button>
+                    <button class="btn btn-success"><i class="fas fa-shopping-cart"></i>Sepete Ekle</button>
                 </div>
             </div>
         </div>
