@@ -1,12 +1,7 @@
 <?php
-$sayfa = "Menü Oluşturma";
+$sayfa = "Ürünler";
+$title = "Ürün Oluşturma";
 include "inc/header.php";
-include "inc/sidebar.php";
-include "inc/navbar.php";
-
-
-
-
 ?>
 </head>
 <div class="conatiner-fluid content-inner mt-5 py-0">
@@ -16,53 +11,85 @@ include "inc/navbar.php";
                 <div class="card">
                     <div class="card-header d-flex justify-content-between">
                         <div class="header-title">
-                            <h4 class="card-title"><?=$sayfa?></h4>
+                            <h4 class="card-title"><?= $title ?></h4>
                         </div>
                     </div>
                     <div class="card-body">
                         <div class="new-user-info">
                             <form method="POST" action="" enctype="multipart/form-data">
 
-                            <div class="row">
+                                <div class="row">
                                     <div class="form-group col-md-7">
-                                    <label class="form-label" for="add2">Menünün İsmi</label>
-                                    <input onkeypress="preventNumbers(event)" type="text" class="form-control" id="add2" name="kategoriIsim" required placeholder="Menü İsmi">
-                               
+                                        <label class="form-label" for="add2">Ürün İsmi</label>
+                                        <input onkeypress="preventNumbers(event)" type="text" class="form-control" id="product" name="product" required placeholder="Ürün İsmi">
+                                        <label class="form-label" for="add2">Açıklama</label>
+                                        <textarea onkeypress="" type="text" class="form-control" id="description" name="description" placeholder="Menü İsmi">  </textarea>
 
-                               
-                                    <label for="gorsel" class="form-label">Resim Seçimi</label>
-                                    <div class="mb-3 form-check">
-                                        <input type="radio" class="form-check-input" id="resimUrl" name="resimSecenek" value="url" ?>
-                                        <label class="form-check-label" for="resimUrl">URL</label>
-                                    </div>
-                                    <div class="mb-3 form-check">
-                                        <input type="radio" class="form-check-input" id="resimDosya" name="resimSecenek" value="dosya" ?>
-                                        <label class="form-check-label" for="resimDosya">Dosya Yükle</label>
-                                    </div>
+                                        <div class="form-group">
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <label class="form-label" for="weight">Birim Sayı</label>
+                                                    <input type="text" class="form-control" id="weight" name="weight" required placeholder="Birim Sayı">
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <label for="city">Birim Tipi</label>
+                                                    <select name="weight_type" id="weight_type" class="form-select">
+                                                        <?php foreach ($birim as $b) echo "<option value='$b'>$b</option>"; ?>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                <label for="">Fiyatı</label>
+                                                    <div class="input-group">
+                                                        <input maxlength="8" type="text" class="form-control" id="price" name="price" placeholder="Ürün Fiyatı" required>
+                                                        <span class="input-group-text">TL</span>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <label class="form-label" for="stock">Stok</label>
+                                                    <input type="text" class="form-control" id="stock" name="stock" required placeholder="Stok Adeti">
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+
+                                        <label for="gorsel" class="form-label">Görsel türü seçimi</label>
+                                        <div class="mb-3 form-check">
+                                            <input type="radio" class="form-check-input" id="resimUrl" name="phototype" value="url" ?>
+                                            <label class="form-check-label" for="resimUrl">URL</label>
+                                        </div>
+                                        <div class="mb-3 form-check">
+                                            <input type="radio" class="form-check-input" id="resimDosya" name="phototype" value="dosya" ?>
+                                            <label class="form-check-label" for="resimDosya">Dosya Yükle</label>
+                                        </div>
                                     </div>
                                     <div class="form-group col-md-5">
-                                            <div class="card" style="width: 250px;">
-                                                <img id="resim-onizleme" src="" class="card-img-top" alt="Resim">
-                                            </div>
+                                        <div class="card" style="width: 250px;">
+                                            <img id="resim-onizleme" src="" class="card-img-top" alt="Resim">
+                                        </div>
                                     </div>
-                                <div id="resimUrlAlan" style="display: none;">
-                                    <div class="mb-3">
-                                        <label for="resimUrl" class="form-label">Resim URL</label> 
-                                        <input type="text" class="form-control" id="resimUrl" name="resimUrl" oninput="gosterResim(this.value)" >
+                                    <div id="resimUrlAlan" style="display: none;">
+                                        <div class="mb-3">
+                                            <label for="resimUrl" class="form-label">Resim URL</label>
+                                            <input type="text" class="form-control" id="resimUrl" name="resimUrl" oninput="gosterResim(this.value)">
+                                        </div>
                                     </div>
-                                </div>
-                                <div id="resimDosyaAlan" style="display: none;">
-                                    <div class="mb-3">
-                                        <label for="resimDosya" class="form-label">Resim Yükle</label>
-                                        <input type="file" class="form-control" id="resimDosya" name="resimDosya" onchange="onResimSecildi(event)">
+                                    <div id="resimDosyaAlan" style="display: none;">
+                                        <div class="mb-3">
+                                            <label for="resimDosya" class="form-label">Resim Yükle</label>
+                                            <input type="file" class="form-control" id="resimDosya" name="resimDosya" onchange="onResimSecildi(event)">
+                                        </div>
                                     </div>
-                                </div>
                                 </div>
 
 
                                 <div class="form-group col-md-6">
                                     <label class="switch">
-                                        <input name="ap" class="btn btn-primary"  type="checkbox"  data-toggle="switchbutton" data-onlabel="Açık" data-offlabel="Kapalı">
+                                        <input name="status" class="btn btn-primary" type="checkbox" data-toggle="switchbutton" data-onlabel="Açık" data-offlabel="Kapalı">
                                         <input id="switch-two" type="checkbox">
                                     </label>
                                 </div>
@@ -101,79 +128,62 @@ try {
         $secenek = "";
         $resimdurum = 0;
         $kategori = $_POST['kategoriIsim'];
-        $kategori = removeExtraSpaces($kategori); 
+        $kategori = removeExtraSpaces($kategori);
         $kategori = htmlspecialchars($kategori, ENT_QUOTES, 'UTF-8');
-        $kategori = mb_strtolower($kategori,'UTF-8');
-        if(isset($_POST['resimSecenek'])) $secenek = $_POST['resimSecenek'];
+        $kategori = mb_strtolower($kategori, 'UTF-8');
+        if (isset($_POST['resimSecenek'])) $secenek = $_POST['resimSecenek'];
         if (isset($_POST["ap"])) $durum = 1;
 
-        if($kategori != "" ||$kategori != null ){
+        if ($kategori != "" || $kategori != null) {
 
-        if($secenek == 'url' || $secenek == 'URL'){
-        $resimdurum = 0;
-        $foto = $_POST['resimUrl'];
-        $foto = trim($foto);
-        $foto = htmlspecialchars($foto);
-        if($foto == null || $foto == ""){
-            $hata="Resmin URL alanı boş bırakılamaz";
-            echo showErrorAlert($hata);
-        }
-        }
-        else if($secenek == "dosya yükle" || $secenek == "Dosya Yükle" || $secenek == 'dosyayükle' || $secenek == 'dosya' && $_FILES["resimDosya"]['name'] != "" && $_FILES["resimDosya"]['name'] != null){
+            if ($secenek == 'url' || $secenek == 'URL') {
+                $resimdurum = 0;
+                $foto = $_POST['resimUrl'];
+                $foto = trim($foto);
+                $foto = htmlspecialchars($foto);
+                if ($foto == null || $foto == "") {
+                    $hata = "Resmin URL alanı boş bırakılamaz";
+                    echo showErrorAlert($hata);
+                }
+            } else if ($secenek == "dosya yükle" || $secenek == "Dosya Yükle" || $secenek == 'dosyayükle' || $secenek == 'dosya' && $_FILES["resimDosya"]['name'] != "" && $_FILES["resimDosya"]['name'] != null) {
 
- 
-            if($_FILES["resimDosya"]['error'] != 0){
-                $hata.="Resim yüklenirken hata gerçekleşti";
-                echo showErrorAlert($hata);
-        
-            }
-         
-            else if(file_exists('../assets/gallery/'.strtolower($_FILES['resimDosya']['name']))){
-                $hata.="Aynı resim ismi mevcut";   
-                echo showErrorAlert($hata); 
-         
-            }
-            else if($_FILES['resimDosya']['size']>(1024*1024*2)){
-                $hata.="Resmin boyutu 2MB'dan büyük olamaz";
-                echo showErrorAlert($hata);
-            }
-            else if(!in_array($_FILES['resimDosya']['type'], array('image/png', 'image/jpeg', 'image/jpg'))){
-            $hata.="Hata, resim türü png veya jpeg formatında olmalıdır.";
-                echo showErrorAlert($hata);
-            }
-            else{
-                copy($_FILES['resimDosya']['tmp_name'],'../assets/gallery/'.mb_strtolower($_FILES['resimDosya']['name']));
-                $foto=mb_strtolower($_FILES['resimDosya']['name']);
-                $resimdurum = 1;
-            }       
-     
-        }
 
-        else if ($foto == "" || $foto == null){
-            $hata="Resmin URL'si veya Dosya yüklenmedi";
-            echo showErrorAlert($hata);
-           
-        }
-        else{
-            $hata="Resim seçeneğini belirtmediniz";
+                if ($_FILES["resimDosya"]['error'] != 0) {
+                    $hata .= "Resim yüklenirken hata gerçekleşti";
+                    echo showErrorAlert($hata);
+                } else if (file_exists('../assets/gallery/' . strtolower($_FILES['resimDosya']['name']))) {
+                    $hata .= "Aynı resim ismi mevcut";
+                    echo showErrorAlert($hata);
+                } else if ($_FILES['resimDosya']['size'] > (1024 * 1024 * 2)) {
+                    $hata .= "Resmin boyutu 2MB'dan büyük olamaz";
+                    echo showErrorAlert($hata);
+                } else if (!in_array($_FILES['resimDosya']['type'], array('image/png', 'image/jpeg', 'image/jpg'))) {
+                    $hata .= "Hata, resim türü png veya jpeg formatında olmalıdır.";
+                    echo showErrorAlert($hata);
+                } else {
+                    copy($_FILES['resimDosya']['tmp_name'], '../assets/gallery/' . mb_strtolower($_FILES['resimDosya']['name']));
+                    $foto = mb_strtolower($_FILES['resimDosya']['name']);
+                    $resimdurum = 1;
+                }
+            } else if ($foto == "" || $foto == null) {
+                $hata = "Resmin URL'si veya Dosya yüklenmedi";
+                echo showErrorAlert($hata);
+            } else {
+                $hata = "Resim seçeneğini belirtmediniz";
                 echo  showErrorAlert($hata);
+            }
+        } else {
+            $hata = "Boş bırakılmış alanlar var";
+            echo  showErrorAlert($hata);
         }
 
-    }
-    
-    else{
-        $hata = "Boş bırakılmış alanlar var";
-                echo  showErrorAlert($hata);
-    }
-
-         $control = $tadmin->prepare("SELECT isim FROM kategori WHERE isim=:isim");
-         $control->bindParam(':isim', $kategori);
-         $control->execute();
-        if($control->rowCount() == 1){
-            $hata="Oluşturulmuş bir menü ismini tekrar oluşturamazsın";
-            echo  showErrorAlert($hata);   
-        }
-        else if ($hata == null || $hata == "") {
+        $control = $tadmin->prepare("SELECT isim FROM kategori WHERE isim=:isim");
+        $control->bindParam(':isim', $kategori);
+        $control->execute();
+        if ($control->rowCount() == 1) {
+            $hata = "Oluşturulmuş bir menü ismini tekrar oluşturamazsın";
+            echo  showErrorAlert($hata);
+        } else if ($hata == null || $hata == "") {
             $sirasorgu = $tadmin->prepare('select * from kategori');
             $siracek = $sirasorgu->execute();
             $satirSayisi = $sirasorgu->rowCount();
@@ -204,8 +214,8 @@ try {
     }
 } catch (PDOException $e) {
     $hata = $e->getMessage();
-    catchLog($_SESSION['kadi'],$sayfa,$hata,'INSERT');
-    echo showErrorAlert("Hata raporu gönderildi:".$hata);
+    catchLog($_SESSION['kadi'], $sayfa, $hata, 'INSERT');
+    echo showErrorAlert("Hata raporu gönderildi:" . $hata);
 }
 ?>
 
@@ -251,16 +261,16 @@ try {
 
         dosyaOkuyucu.readAsDataURL(dosya);
     }
+
     function gosterResim(url) {
         var resim = document.getElementById('resim-onizleme');
         resim.src = url;
     }
 
     function preventNumbers(event) {
-    var charCode = event.which ? event.which : event.keyCode;
-    if (charCode >= 48 && charCode <= 57) {
-        event.preventDefault();
+        var charCode = event.which ? event.which : event.keyCode;
+        if (charCode >= 48 && charCode <= 57) {
+            event.preventDefault();
+        }
     }
-}
-
 </script>

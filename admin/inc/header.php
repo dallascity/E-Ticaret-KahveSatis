@@ -2,6 +2,7 @@
 session_start();
  include "../inc/db.php";
  include "../inc/function.php";
+ if($_SESSION['authority'] != 1)route("../index.php");
 ?>
 
 <!doctype html>

@@ -16,13 +16,14 @@
                         
                             <li class="nav-item dropdown">
                                 <a class="nav-link py-0 d-flex align-items-center" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                    <img src="" alt="User-Profile" class="img-fluid avatar avatar-50 avatar-rounded">
+                                    <img src="https://images.squarespace-cdn.com/content/v1/5a73eecbe5dd5b61a30921f6/1626305816569-60YHH6SN7PBA455EE9P2/SteamIconCilantro1.png" alt="User-Profile" class="img-fluid avatar avatar-50 avatar-rounded">
                                     <div class="caption ms-3 d-none d-md-block ">
-                                        <h6 class="mb-0 caption-title"><?=$_SESSION['surname']?></h6>
+                                        <h6 class="mb-0 caption-title"><?=$_SESSION['name']. " " . $_SESSION['surname']?></h6>
                                     </div>
                             
                                 </a>
                                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" href="../index.php">Anasayfa</a>
                                 <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#logoutModal">Çıkış Yap</a>
                                 </ul>
                             </li>

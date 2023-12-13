@@ -19,7 +19,7 @@
             <div class="collapse navbar-collapse" id="sidebar-parent">
                 <ul class="navbar-nav iq-main-menu py-4">
                     <li class="nav-item">
-                        <a class="nav-link <?=$sayfa == "products" ? 'active' : '' ?>" aria-current="page" href="panel">
+                        <a class="nav-link <?=$sayfa == "Ürünler" ? 'active' : '' ?>" aria-current="page" href="index.php">
                             <i class="icon">
                              <i class="fa-solid fa-bars"></i>
                             </i>
