@@ -4,7 +4,7 @@ include "inc/function.php";
 session_start();
 ob_start();
 if($sayfa != "login" && $sayfa != "register"){
-if (!(isset($_SESSION["oturum"]) && $_SESSION["oturum"] == 1)) {
+if (!(isset($_SESSION["oturum"]) || $_SESSION["oturum"] != 1)) {
     route("login.php");
 }
 }
@@ -34,15 +34,16 @@ if (!(isset($_SESSION["oturum"]) && $_SESSION["oturum"] == 1)) {
         </a>
 
         <div class="d-flex align-items-center">
-
+            <?php if (!isset($_SESSION['name']) && !isset($_SESSION['surname'])) : ?>
             <a href="login.php" class="btn btn-outline-light me-3">Giriş</a>
             <a href="register.php" class="btn btn-outline-light">Kayıt Ol</a>
-
+            <?php endif; ?>
+            <?php if (isset($_SESSION['name']) && isset($_SESSION['surname'])) : ?>
             <div class="dropdown me-3">
                 <button class="btn dropdown-toggle text-light" type="button" id="userDropdown" data-bs-toggle="dropdown"
                     aria-expanded="false">
                     <i class="fas fa-user me-1"></i>
-                    Eymen Navdar
+                    <?=$_SESSION['name'] . " " .$_SESSION['surname']?>
                 </button>
                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
                     <li><a class="dropdown-item" href="#">Hesap Bilgileri</a></li>
@@ -60,6 +61,7 @@ if (!(isset($_SESSION["oturum"]) && $_SESSION["oturum"] == 1)) {
                     <span class="visually-hidden">Sepet Tutarı</span>
                 </span>
             </div>
+            <?php endif; ?>
         </div>
     </div>
 </nav>

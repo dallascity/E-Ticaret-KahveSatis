@@ -24,8 +24,8 @@ try {
             if ($control->rowCount() == 1) {
                 $userdata = $control->fetch();
                 $_SESSION["id"] = $userdata['id'];
-                $_SESSION["name"] = $userdata['name'];
-                $_SESSION["surname"] = $userdata['surname'];
+                $_SESSION["name"] = ucfirst($userdata['name']);
+                $_SESSION["surname"] = ucfirst($userdata['surname']);
                 $_SESSION['authority'] = $userdata['authority'];
                 $_SESSION['oturum'] = 1;
                 echo $_SESSION['oturum'];
