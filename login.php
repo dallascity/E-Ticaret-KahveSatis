@@ -35,7 +35,7 @@ if (isset($_SESSION["oturum"]) && $_SESSION["oturum"] == 1) route('index.php');
                 <input name="email" type="email" class="form-control" id="email" aria-describedby="emailHelp" required>
             </div>
             <div class="mb-3">
-                <label for="password" class="form-label">Password</label>
+                <label for="password" class="form-label">Şifre</label>
                 <input name="pass" type="password" class="form-control" id="password" required>
             </div>
             <div class="mb-3 form-check">
