@@ -1,56 +1,68 @@
 <?php
+$sayfa = "index";
 include 'inc/header.php';
-$data= ["1","2","3","4","5","6","7","8","9"];
-$img = "https://cdnuploads.aa.com.tr/uploads/Contents/2021/12/05/thumbs_b_c_90af467dfc6f62060d6fd271585c7b55.jpg?v=150655";
 ?>
-<link rel="stylesheet" href="assets/style/card.css">
 
-
-
+<link rel="stylesheet" href="style/card.css">
 
 <body>
+    <div class="container">
+        <div class="row">
 
+            <?php
+            try {
+                $image ="https://i.nefisyemektarifleri.com/2023/03/13/nitelikli-kahve-cekirdegi-cesitleri-ozellikleri.jpg";
+                $fetch = [1,2,3,4,5,6,7,8,9,10];
+                foreach ($fetch as $row) {
+                  
+            ?>
 
-
-  <div class="container">
-    <div class="row">
-<?php foreach($data As $row){?>
-      <div class="col-md-3" style="padding: 10px;">  
-      <div class="card card-clickable position-relative border-radius-50 overflow-hidden">
-    <div class="aspect-ratio-wrapper">
-        <img src="<?=$img?>" alt="Resim" class="card-img img-fluid" style="width: 100%; height: 100%; object-fit: cover;">
-    </div>
-    <div class="d-flex align-items-center justify-content-center card-overlay bg-dark-opacity-5 position-absolute bottom-0 start-0 end-0">
-        <div class="container">
-            <div class="row align-items-center">
-                <div class="col">
-                    <h5 class="card-title text-white text-center" style="font-size: 25px; line-height: 1.2;">
-                        <?=$row?>
-                    </h5>
-                    <div class="d-flex flex-column flex-md-row justify-content-md-between align-items-center mt-2">
-                        <div class="input-group mb-2 mb-md-0 me-md-2">
-                            <input type="number" class="form-control" placeholder="Kilo" min="0">
-                        </div>
-                        <button class="btn btn-success"><i class="fas fa-shopping-cart"></i></button>
-                    </div>
+<div class="col-md-3" style="padding: 10px;">
+    <div class="card">
+        <div class="card_image" style="position: relative;">
+            <img src="<?=$image?>" alt="Resim">
+            <p class="card_price">
+                0₺
+            </p>
+        </div>
+        <div class="card_content">
+            <h2 class="card_title text-white"><?=$row?></h2>
+            <div class="card_text">
+                <p>250 Type</p>
+            </div>
+            <div class="additional_info">
+                <div class="input-group mb-2">
+                    <input type="number" class="form-control" placeholder="3626 adet kaldı" min="0">
+                    <button class="btn btn-success"><i class="fas fa-shopping-cart"></i> Sepete Ekle</button>
                 </div>
             </div>
         </div>
     </div>
 </div>
 
-      </div>
-      <?php } ?>
-    </div>
+            <?php
+                }
+            } catch (PDOException $e) {
+                echo "Hata: " . $e->getMessage();
+            }
+            ?>
 
-
-
-
+        </div>
 
 </body>
 
-</html>
+
 <?php
 include 'inc/footer.php';
 ?>
 
+
+<script>
+    // function toggleCardText(card) {
+    //     var cardContent = card.getElementsByClassName('card_content')[0];
+    //     // var allCardContents = document.getElementsByClassName('card_content');
+
+
+    //     cardContent.classList.toggle('open');
+    // }
+</script>
