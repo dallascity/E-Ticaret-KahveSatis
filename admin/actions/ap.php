@@ -1,14 +1,14 @@
 <?php
 try{
 if ($_POST) { 
-    include("../inc/dbaglanti.php"); 
+    include("../../inc/db.php"); 
 
  
     $id = (int)$_POST['id'];
-    $durum = (int)$_POST['durum'];
-    $tablo = $_POST['tablo'];
+    $status = $_POST['status'];
+    $table = $_POST['table'];
 
-    $sorgu = $tadmin->query("UPDATE $tablo SET durum=$durum WHERE  id=$id");
+    $query = $db->query("UPDATE $table SET status=$status WHERE  product_id=$id");
 }
 } catch (PDOException $e) {
     echo "Hata: " . $e->getMessage();

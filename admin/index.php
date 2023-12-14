@@ -54,13 +54,6 @@ include "inc/header.php";
                                         ?>
                                                 <tr id="rank-<?= $row['product_id'] ?>">
                                                     <td><?= $row['product_id'] ?></td>
-                                                    <td>
-                                                        <a class="btn btn-sm btn-icon btn-primary" href="">
-                                                            <span class="btn-inner">
-                                                                <i class="fa fa-indent fa-2x "></i>
-                                                            </span>
-                                                        </a>
-                                                    </td>
                                                     <td class="text-center">
                                                         <img class="bg-soft-primary rounded img-fluid me-3 custom-image" src="<?= $row['photo_type'] == 1 ? '../assets/gallery/' . $row['photo'] : $row['photo'] ?>" alt="productphoto">
                                                     </td>
@@ -69,10 +62,10 @@ include "inc/header.php";
                                                     <td class="aciklama"> <?= $row['description'] ?> </td>
                                                     <td> <?= $row['price'] . "TL" ?> </td>
                                                     <td> <?= $row['weight'] . " " . $row['weight_type'] ?> </td>
-                                                    <td> <?= $row['stock'] . "TL" ?> </td>
+                                                    <td> <?= $row['stock'] ?> </td>
                                                     <td>
                                                         <label class="switch">
-                                                            <input <?= $row['status'] == 1 ? 'checked' : '' ?> name="ap" type="checkbox" id='' class="btn btn-succes" data-toggle="switchbutton" data-onlabel="Açık" data-offlabel="Kapalı">
+                                                            <input <?= $row['status'] == 1 ? 'checked' : '' ?> id='<?= $row['product_id'] ?>' name="ap" type="checkbox" id='' class="btn btn-succes" data-toggle="switchbutton" data-onlabel="Açık" data-offlabel="Kapalı">
                                                         </label>
                                                     </td>
                                                     <td>
@@ -130,17 +123,17 @@ include "inc/footer.php";
         $(elements).change(function(event) {
 
             var id = $(this).attr("id");
-            var durum = ($(this).is(':checked')) ? '1' : '0';
+            var status = ($(this).is(':checked')) ? 'true' : 'false';
             $.ajax({
                 url: 'actions/ap.php',
                 method: 'POST',
                 data: {
                     id: id,
-                    tablo: 'kategori',
-                    durum: durum
+                    table: 'products',
+                    status: status
                 },
                 success: function(result) {
-
+                    console.log(result);
                 },
                 error: function() {
                     alert('Hata');
