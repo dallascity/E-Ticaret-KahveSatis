@@ -136,7 +136,6 @@ include "inc/header.php";
 
     });
 
-
     function confirmAndDelete(id, table, url, stock) {
         const silinecekSatir = $("#rank-" + id);
         const silinecektablo = $(this).parents('tr');
@@ -158,7 +157,6 @@ include "inc/header.php";
                     url: url,
                     stock:stock
                 };
-
 
                 $.ajax({
                     url: 'actions/deleteproduct.php',
