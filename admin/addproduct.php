@@ -21,7 +21,7 @@ include "inc/header.php";
                                 <div class="row">
                                     <div class="form-group col-md-7">
                                         <label class="form-label" for="add2">Ürün İsmi</label>
-                                        <input onkeypress="preventNumbers(event)" type="text" class="form-control" id="product" name="product" required placeholder="Ürün İsmi">
+                                        <input onkeypress="preventNumbers(event)" type="text" class="form-control" id="product" name="product" required placeholder="Ürün İsmi" maxlength="30">
                                         <label class="form-label" for="add2" >Açıklama (boş bırakılabilir)</label>
                                         <textarea placeholder="Boş bırakılabilir" onkeypress="" type="text" class="form-control" id="description" name="description" placeholder="Menü İsmi">  </textarea>
 
@@ -29,7 +29,7 @@ include "inc/header.php";
                                             <div class="row">
                                                 <div class="col-md-6">
                                                     <label class="form-label" for="weight">Birim Sayı</label>
-                                                    <input onkeypress="allowNumbersAndDot(event)" type="text" class="form-control" id="weight" name="weight" required placeholder="Birim Sayı">
+                                                    <input onkeypress="allowNumbersAndDot(event)" type="text" class="form-control" id="weight" name="weight" required placeholder="Birim Sayı" maxlength="8">
                                                 </div>
                                                 <div class="col-md-6">
                                                     <label for="city">Birim Tipi</label>
@@ -50,7 +50,7 @@ include "inc/header.php";
                                                 </div>
                                                 <div class="col-md-6">
                                                     <label class="form-label" for="stock">Stok</label>
-                                                    <input type="text" class="form-control" id="stock" name="stock" required placeholder="Stok Adeti" onkeypress="return event.charCode >= 48 && event.charCode <= 57">
+                                                    <input type="text" maxlength="8" class="form-control" id="stock" name="stock" required placeholder="Stok Adeti" onkeypress="return event.charCode >= 48 && event.charCode <= 57">
                                                 </div>
                                             </div>
                                         </div>

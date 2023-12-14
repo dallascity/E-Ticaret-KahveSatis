@@ -103,10 +103,8 @@ include "inc/header.php";
     </div>
 </div>
 
-
-
 <script>
-    $(document).ready(function() {
+ $(document).ready(function() {
         const elements = document.getElementsByName('ap');
         $(elements).change(function(event) {
 
@@ -128,14 +126,13 @@ include "inc/header.php";
                 }
             });
         });
+});
 
 
-        
+</script>
 
-
-
-    });
-
+<script>
+   
     function confirmAndDelete(id, table, url) {
         const silinecekSatir = $("#rank-" + id);
         const silinecektablo = $(this).parents('tr');
