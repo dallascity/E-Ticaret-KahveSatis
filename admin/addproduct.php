@@ -16,14 +16,14 @@ include "inc/header.php";
                     </div>
                     <div class="card-body">
                         <div class="new-user-info">
-                            <form method="POST" action="" enctype="multipart/form-data">
+                            <form id="form" method="POST" action="" enctype="multipart/form-data">
 
                                 <div class="row">
                                     <div class="form-group col-md-7">
                                         <label class="form-label" for="add2">Ürün İsmi</label>
                                         <input onkeypress="preventNumbers(event)" type="text" class="form-control" id="product" name="product" required placeholder="Ürün İsmi">
-                                        <label class="form-label" for="add2">Açıklama</label>
-                                        <textarea onkeypress="" type="text" class="form-control" id="description" name="description" placeholder="Menü İsmi">  </textarea>
+                                        <label class="form-label" for="add2" >Açıklama (boş bırakılabilir)</label>
+                                        <textarea placeholder="Boş bırakılabilir" onkeypress="" type="text" class="form-control" id="description" name="description" placeholder="Menü İsmi">  </textarea>
 
                                         <div class="form-group">
                                             <div class="row">
@@ -33,7 +33,7 @@ include "inc/header.php";
                                                 </div>
                                                 <div class="col-md-6">
                                                     <label for="city">Birim Tipi</label>
-                                                    <select name="weight_type" id="weight_type" class="form-select">
+                                                    <select id="select"  name="weight_type" id="weight_type" class="form-select">
                                                         <?php foreach ($birim as $b) echo "<option value='$b'>$b</option>"; ?>
                                                     </select>
                                                 </div>
@@ -54,9 +54,6 @@ include "inc/header.php";
                                                 </div>
                                             </div>
                                         </div>
-
-
-
                                         <label for="gorsel" class="form-label">Görsel türü seçimi</label>
                                         <div class="mb-3 form-check">
                                             <input type="radio" class="form-check-input" id="resimUrl" name="phototype" value="url" ?>
@@ -75,13 +72,13 @@ include "inc/header.php";
                                     <div id="resimUrlAlan" style="display: none;">
                                         <div class="mb-3">
                                             <label for="resimUrl" class="form-label">Resim URL</label>
-                                            <input type="text" class="form-control" id="resimUrl" name="resimUrl" oninput="gosterResim(this.value)">
+                                            <input type="text" class="form-control" id="resimUrl" name="photoUrl" oninput="gosterResim(this.value)">
                                         </div>
                                     </div>
                                     <div id="resimDosyaAlan" style="display: none;">
                                         <div class="mb-3">
                                             <label for="resimDosya" class="form-label">Resim Yükle</label>
-                                            <input type="file" class="form-control" id="resimDosya" name="resimDosya" onchange="onResimSecildi(event)">
+                                            <input type="file" class="form-control" id="resimDosya" name="photoDoc" onchange="onResimSecildi(event)">
                                         </div>
                                     </div>
                                 </div>
@@ -95,7 +92,7 @@ include "inc/header.php";
                                 </div>
 
 
-                                <button type="submit" name="ekle" class="btn btn-primary">Oluştur</button>
+                                <button type="submit" id="insert" name="insert" class="btn btn-primary">Oluştur</button>
                             </form>
                         </div>
                     </div>
@@ -113,126 +110,43 @@ include "inc/header.php";
 
 <?php
 include "inc/footer.php";
+// include "actions/addproductaction.php";
 ?>
-
-
-<?php
-
-
-try {
-
-    if (isset($_POST['ekle'])) {
-        $hata = "";
-        $durum = 0;
-        $foto = null;
-        $secenek = "";
-        $resimdurum = 0;
-        $kategori = $_POST['kategoriIsim'];
-        $kategori = removeExtraSpaces($kategori);
-        $kategori = htmlspecialchars($kategori, ENT_QUOTES, 'UTF-8');
-        $kategori = mb_strtolower($kategori, 'UTF-8');
-        if (isset($_POST['resimSecenek'])) $secenek = $_POST['resimSecenek'];
-        if (isset($_POST["ap"])) $durum = 1;
-
-        if ($kategori != "" || $kategori != null) {
-
-            if ($secenek == 'url' || $secenek == 'URL') {
-                $resimdurum = 0;
-                $foto = $_POST['resimUrl'];
-                $foto = trim($foto);
-                $foto = htmlspecialchars($foto);
-                if ($foto == null || $foto == "") {
-                    $hata = "Resmin URL alanı boş bırakılamaz";
-                    echo showErrorAlert($hata);
-                }
-            } else if ($secenek == "dosya yükle" || $secenek == "Dosya Yükle" || $secenek == 'dosyayükle' || $secenek == 'dosya' && $_FILES["resimDosya"]['name'] != "" && $_FILES["resimDosya"]['name'] != null) {
-
-
-                if ($_FILES["resimDosya"]['error'] != 0) {
-                    $hata .= "Resim yüklenirken hata gerçekleşti";
-                    echo showErrorAlert($hata);
-                } else if (file_exists('../assets/gallery/' . strtolower($_FILES['resimDosya']['name']))) {
-                    $hata .= "Aynı resim ismi mevcut";
-                    echo showErrorAlert($hata);
-                } else if ($_FILES['resimDosya']['size'] > (1024 * 1024 * 2)) {
-                    $hata .= "Resmin boyutu 2MB'dan büyük olamaz";
-                    echo showErrorAlert($hata);
-                } else if (!in_array($_FILES['resimDosya']['type'], array('image/png', 'image/jpeg', 'image/jpg'))) {
-                    $hata .= "Hata, resim türü png veya jpeg formatında olmalıdır.";
-                    echo showErrorAlert($hata);
-                } else {
-                    copy($_FILES['resimDosya']['tmp_name'], '../assets/gallery/' . mb_strtolower($_FILES['resimDosya']['name']));
-                    $foto = mb_strtolower($_FILES['resimDosya']['name']);
-                    $resimdurum = 1;
-                }
-            } else if ($foto == "" || $foto == null) {
-                $hata = "Resmin URL'si veya Dosya yüklenmedi";
-                echo showErrorAlert($hata);
-            } else {
-                $hata = "Resim seçeneğini belirtmediniz";
-                echo  showErrorAlert($hata);
-            }
-        } else {
-            $hata = "Boş bırakılmış alanlar var";
-            echo  showErrorAlert($hata);
-        }
-
-        $control = $tadmin->prepare("SELECT isim FROM kategori WHERE isim=:isim");
-        $control->bindParam(':isim', $kategori);
-        $control->execute();
-        if ($control->rowCount() == 1) {
-            $hata = "Oluşturulmuş bir menü ismini tekrar oluşturamazsın";
-            echo  showErrorAlert($hata);
-        } else if ($hata == null || $hata == "") {
-            $sirasorgu = $tadmin->prepare('select * from kategori');
-            $siracek = $sirasorgu->execute();
-            $satirSayisi = $sirasorgu->rowCount();
-            $sira = $satirSayisi;
-
-            $sorgu = $tadmin->prepare('INSERT INTO kategori (resim, isim, sira ,durum, resimdurum) VALUES (:resim, :isim, :sira ,:durum, :resimdurum)');
-
-            $sorgu->bindParam(':resim', $foto);
-            $sorgu->bindParam(':isim', $kategori);
-            $sorgu->bindParam(':sira', $sira);
-            $sorgu->bindParam(':durum', $durum);
-            $sorgu->bindParam(':resimdurum', $resimdurum);
-            $insert = $sorgu->execute();
-
-            echo '<script>
-               Swal.fire({
-                   icon: "success",
-                   title: "Başarılı",
-                   text: "Ekleme işleminiz başarıyla gerçekleşti",
-                   confirmButtonText: "Kapat"
-               }).then((value) => {
-                   if (value.isConfirmed) {
-                       window.location.href = "panel";
-                   }
-               });
-           </script>';
-        }
-    }
-} catch (PDOException $e) {
-    $hata = $e->getMessage();
-    catchLog($_SESSION['kadi'], $sayfa, $hata, 'INSERT');
-    echo showErrorAlert("Hata raporu gönderildi:" . $hata);
-}
-?>
-
-
-
 <script>
+
+$('#form').submit(function(event) {
+    event.preventDefault();
+
+    var formData = new FormData(this); // Formdaki tüm verileri FormData objesine ekle
+    formData.append('insert', 'true'); 
+    $.ajax({
+        url: 'actions/addproductaction.php', // Verilerin gönderileceği adres
+        method: 'POST',
+        data: formData,
+        processData: false, // FormData işlenmesini devre dışı bırak
+        contentType: false, // FormData içeriğini 'application/x-www-form-urlencoded' olarak ayarla
+        success: function(result) {
+            $('body').append(result);
+        },
+        error: function(error) {
+            $('body').append(error);
+        }
+    });
+});
+
+
+
     document.addEventListener("DOMContentLoaded", function() {
-        var resimSecenekler = document.querySelectorAll('input[name="resimSecenek"]');
+        var resimSecenekler = document.querySelectorAll('input[name="phototype"]');
         resimSecenekler.forEach(function(secenek) {
             secenek.addEventListener('change', function() {
-                var secilenSecenek = document.querySelector('input[name="resimSecenek"]:checked').value;
+                var secilenSecenek = document.querySelector('input[name="phototype"]:checked').value;
                 gosterGizleResimAlan(secilenSecenek);
             });
         });
 
         // Sayfa yüklendiğinde mevcut seçeneğe göre resim alanını göster veya gizle
-        var secilenSecenek = document.querySelector('input[name="resimSecenek"]:checked').value;
+        var secilenSecenek = document.querySelector('input[name="phototype"]:checked').value;
         gosterGizleResimAlan(secilenSecenek);
 
         // Resim alanını göster veya gizle
@@ -273,4 +187,5 @@ try {
             event.preventDefault();
         }
     }
+
 </script>
