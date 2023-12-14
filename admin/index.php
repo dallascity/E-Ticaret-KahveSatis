@@ -62,7 +62,8 @@ include "inc/header.php";
                                                     <td class="aciklama"> <?= $row['description'] ?> </td>
                                                     <td> <?= $row['price'] . "TL" ?> </td>
                                                     <td> <?= $row['weight'] . " " . $row['weight_type'] ?> </td>
-                                                    <td> <?= $row['stock'] ?> </td>
+                                                    <td class="fs-5" id="stock" contenteditable="true" onBlur="stockUpdate(this,'stock','<?php echo $row['product_id'] ?>')"
+                                                     onClick="stockClicked(this);"><?= $row['stock'] ?></td>
                                                     <td>
                                                         <label class="switch">
                                                             <input <?= $row['status'] == 1 ? 'checked' : '' ?> id='<?= $row['product_id'] ?>' name="ap" type="checkbox" id='' class="btn btn-succes" data-toggle="switchbutton" data-onlabel="Açık" data-offlabel="Kapalı">
@@ -76,7 +77,7 @@ include "inc/header.php";
                                                                 </span>
                                                             </a>
 
-                                                            <a onclick="" class="btn btn-sm btn-icon btn-danger" data-toggle="tooltip" data-placement="top" title="" data-original-title="Delete" href="#">
+                                                            <a onclick="confirmAndDelete(<?=$row['product_id']?>,'products','<?=$row['photo']?>',<?=$row['stock']?>)" class="btn btn-sm btn-icon btn-danger" data-toggle="tooltip" data-placement="top" title="" data-original-title="Delete">
                                                                 <span class="btn-inner">
                                                                     <i class="fa fa-trash text-center"></i>
                                                                 </span>
@@ -101,19 +102,6 @@ include "inc/header.php";
         </div>
     </div>
 </div>
-
-
-</div>
-
-
-<?php
-include "inc/footer.php";
-
-
-?>
-
-
-
 
 
 
@@ -142,17 +130,19 @@ include "inc/footer.php";
         });
 
 
+        
+
+
 
     });
 
 
-    function confirmAndDelete(id, table, sira, url, kat) {
+    function confirmAndDelete(id, table, url, stock) {
         const silinecekSatir = $("#rank-" + id);
-        const siranumarasi = sira;
         const silinecektablo = $(this).parents('tr');
         Swal.fire({
             title: 'Silmek istediğine emin misin?',
-            text: "Menünün içindeki ürünler silinecektir!",
+            text: "Ürün silinecektir!",
             icon: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
@@ -165,10 +155,8 @@ include "inc/footer.php";
                 var data = {
                     id: id,
                     table: table,
-                    sira: sira,
                     url: url,
-                    kat: kat
-
+                    stock:stock
                 };
 
 
@@ -177,18 +165,10 @@ include "inc/footer.php";
                     method: 'POST',
                     data: data,
                     success: function(response) {
-
-
-                        updateSiraNumbers(sira);
-                        silinecekSatir.remove(); // Veya: silinecekSatir.detach();
-
-
-                        Swal.fire(
-                            'Silindi!',
-                            'Menü kaldırıldı.',
-                            'success'
-                        );
-
+                        $('body').append(response);
+                        if(response == null || response == ""){
+                            silinecekSatir.remove();
+                        }
                     },
                     error: function(xhr, status, error) {
                         console.log(error);
@@ -206,12 +186,39 @@ include "inc/footer.php";
         });
     }
 
-    function updateSiraNumbers(sira) {
-        $("#myDataTable tr").each(function() {
-            var rowSira = parseInt($(this).find('td:first').text().trim(), 10);
-            if (rowSira > sira) {
-                $(this).find('td:first').text(rowSira - 1);
+
+
+    function stockClicked(deger) {
+        $(deger).css("background", "#ffff00");
+        $(deger).text("");
+    }
+
+        function stockUpdate(stock, column, id) {
+        $(stock).css("background", "#FFF no-repeat right");
+      
+        $.ajax({
+            url: "actions/faststockupdate.php", 
+            type: "POST", //post ile gönderilecek
+            data: 'column=' + column + '&newstock=' + stock.innerHTML.split('+').join('{0}')+ '&id=' + id, 
+            success: function (data) {
+                console.log(data);
+                if (data == true) {
+                    $(stock).css("background", "#99CC99");
+                    $(stock).text(stock.innerHTML.split('+').join('{0}'));
+                   
+                }
+                else {
+                    $(stock).css("background", "#f00");
+                    $(this).text("Güncellenmedi");
+                    $(stock).text(stock.innerHTML.split('+').join('{0}') + 'Güncellenmedi');
+                }
             }
         });
-    }
+        }
+
+
 </script>
+
+<?php
+include "inc/footer.php";
+?>
