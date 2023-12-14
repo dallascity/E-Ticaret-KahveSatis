@@ -29,7 +29,7 @@ include "inc/header.php";
                                             <div class="row">
                                                 <div class="col-md-6">
                                                     <label class="form-label" for="weight">Birim Sayı</label>
-                                                    <input type="text" class="form-control" id="weight" name="weight" required placeholder="Birim Sayı">
+                                                    <input onkeypress="allowNumbersAndDot(event)" type="text" class="form-control" id="weight" name="weight" required placeholder="Birim Sayı">
                                                 </div>
                                                 <div class="col-md-6">
                                                     <label for="city">Birim Tipi</label>
@@ -44,13 +44,13 @@ include "inc/header.php";
                                                 <div class="col-md-6">
                                                 <label for="">Fiyatı</label>
                                                     <div class="input-group">
-                                                        <input maxlength="8" type="text" class="form-control" id="price" name="price" placeholder="Ürün Fiyatı" required>
+                                                        <input onkeypress="allowNumbersAndDot(event)" maxlength="8" type="text" class="form-control" id="price" name="price" placeholder="Ürün Fiyatı" required>
                                                         <span class="input-group-text">TL</span>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6">
                                                     <label class="form-label" for="stock">Stok</label>
-                                                    <input type="text" class="form-control" id="stock" name="stock" required placeholder="Stok Adeti">
+                                                    <input type="text" class="form-control" id="stock" name="stock" required placeholder="Stok Adeti" onkeypress="return event.charCode >= 48 && event.charCode <= 57">
                                                 </div>
                                             </div>
                                         </div>
@@ -117,14 +117,14 @@ include "inc/footer.php";
 $('#form').submit(function(event) {
     event.preventDefault();
 
-    var formData = new FormData(this); // Formdaki tüm verileri FormData objesine ekle
+    var formData = new FormData(this); 
     formData.append('insert', 'true'); 
     $.ajax({
-        url: 'actions/addproductaction.php', // Verilerin gönderileceği adres
+        url: 'actions/addproductaction.php', 
         method: 'POST',
         data: formData,
-        processData: false, // FormData işlenmesini devre dışı bırak
-        contentType: false, // FormData içeriğini 'application/x-www-form-urlencoded' olarak ayarla
+        processData: false, 
+        contentType: false, 
         success: function(result) {
             $('body').append(result);
         },
@@ -187,5 +187,22 @@ $('#form').submit(function(event) {
             event.preventDefault();
         }
     }
+    function allowNumbersAndDot(event) {
+    var charCode = event.which ? event.which : event.keyCode;
+
+    // Backspace (8) veya Delete (46) tuşlarını engelleme
+    if (charCode === 8 || charCode === 46) {
+        return true;
+    }
+
+    var input = String.fromCharCode(charCode);
+    var allowedChars = /[0-9.]/;
+
+    if (!allowedChars.test(input)) {
+        event.preventDefault();
+    }
+}
+
+
 
 </script>

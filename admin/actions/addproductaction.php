@@ -15,6 +15,7 @@ try {
         $status = false;
         $photostatus = false;
         $error = null;
+        $phototype = null;
         // var_dump($photo, $product, $description, $price, $weight, $weightType, $stock, $status, $photostatus);
         // exit;
 
