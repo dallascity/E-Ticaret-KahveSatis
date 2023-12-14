@@ -7,18 +7,16 @@ try {
         $weightType = $_POST['weight_type'];
         $price = $_POST['price'];
         $stock = $_POST['stock'];
-        $photo = null;
-        $status = false;
-        $photostatus = false;
+        $status = $fetch['status'];
+        $photo = $fetch['photo'];
+        $photostatus = $fetch['photo_type'];
+        
         $error = null;
-        $phototype = null;
-        // var_dump($photo, $product, $description, $price, $weight, $weightType, $stock, $status, $photostatus);
-        // exit;
-
+        
         if (isset($_POST['phototype'])) $phototype = $_POST['phototype'];
         if (isset($_POST["status"])) $status = true;
    
-   
+      
 
         if ($product != null &&  $weight != null && $price != null &&  $stock != null) {
 
@@ -52,8 +50,8 @@ try {
                 errorAlert($error);
             }
             else {
-
-                if ($phototype == 'url' || $phototype == 'URL') {
+                if (($phototype == 'url' || $phototype == 'URL') && ($_POST['photoUrl'] != "") ) {
+                    if ($photostatus == true) unlink('../assets/gallery/' . $fetch['photo']);
                     $photostatus = false;
                     $photo = $_POST['photoUrl'];
                     $photo = trim($photo);
@@ -68,7 +66,7 @@ try {
                     if ($_FILES["photoDoc"]['error'] != 0) {
                         $error .= "Resim yüklenirken hata gerçekleşti";
                         errorAlert($error);
-                    } else if (file_exists('../../assets/gallery/' . strtolower($_FILES['photoDoc']['name']))) {
+                    } else if (file_exists('../assets/gallery/' . strtolower($_FILES['photoDoc']['name']))) {
                         $error .= "Aynı resim ismi mevcut";
                         errorAlert($error);
                     } else if ($_FILES['photoDoc']['size'] > (1024 * 1024 * 2)) {
@@ -78,32 +76,50 @@ try {
                         $error .= "Hata, resim türü png veya jpeg formatında olmalıdır.";
                         errorAlert($error);
                     } else {
-                        copy($_FILES['photoDoc']['tmp_name'], '../../assets/gallery/' . mb_strtolower($_FILES['photoDoc']['name']));
+                    
+                        if ($photostatus == 1 && $_FILES['photoDoc']['name'] != "") {
+                            unlink('../assets/gallery' . $fetch['resim']);
+                        }
+                        copy($_FILES['photoDoc']['tmp_name'], '../assets/gallery/' . mb_strtolower($_FILES['photoDoc']['name']));
                         $photo = mb_strtolower($_FILES['photoDoc']['name']);
                         $photostatus = true;
+                 
                     }
                 } else if ($photo == "" || $photo == null) {
                     $error = "Resmin URL'si veya Dosya yüklenmedi";
                     errorAlert($error);
-                } else {
-                    $error = "Resim seçeneğini belirtilmedi";
-                    errorAlert($error);
-                }
+                } 
             }
         } else {
             $error = "Boş bırakılmış alanlar var";
             errorAlert($error);
         }
-
-        $control = $db->prepare("SELECT name FROM products WHERE name=:product");
+       
+       
+        $control = $db->prepare("SELECT product_id FROM products WHERE name=:product");
         $control->bindParam(':product', $product);
         $control->execute();
-        if ($control->rowCount() == 1) {
-            $error = "Oluşturulmuş ayni isimde ürün zaten var";
-            errorAlert($error);
-        } else if ($error == null || $error == "") {
-   
-            $query = $db->prepare('INSERT INTO products (photo, name, description ,price, weight, weight_type, stock, status, photo_type) VALUES (:photo, :name, :description ,:price, :weight , :weight_type , :stock, :status, :photo_type)');
+        $cnt = $control->fetch();
+        if ($cnt['product_id'] != null) {
+            if ($cnt['product_id'] != $id) {
+                $error = "Oluşturulmuş bir menü ismini tekrar oluşturamazsın";
+                errorAlert($error);
+           
+             }
+        }  
+        if ($error == null || $error == "") {
+            var_dump($photo, $product, $description, $price, $weight, $weightType, $stock, $status, $photostatus,$phototype);
+            $query = $db->prepare('UPDATE products 
+            SET photo = :photo, 
+                name = :name, 
+                description = :description,
+                price = :price,
+                weight = :weight,
+                weight_type = :weight_type,
+                stock = :stock,
+                status = :status,
+                photo_type = :photo_type 
+            WHERE product_id = :product_id');
 
             $query->bindParam(':photo', $photo);
             $query->bindParam(':name', $product);
@@ -112,13 +128,12 @@ try {
             $query->bindParam(':weight', $weight);
             $query->bindParam(':weight_type', $weightType);
             $query->bindParam(':stock', $stock);
-            $query->bindParam(':status', $status);
-            $query->bindParam(':photo_type', $photostatus);
+            $query->bindParam(':status', $status,PDO::PARAM_BOOL);
+            $query->bindParam(':photo_type', $photostatus,PDO::PARAM_BOOL);
+            $query->bindParam(':product_id', $id);
             $query->execute();
       
-  
-
-            successAlert("Ürün Eklendi","","index.php");
+            successAlert("Ürün Başarıyla Güncellendi","İşlem başarılı yönlendiriliyorsunuz","index.php");
         }
     }
 } catch (PDOException $e) {

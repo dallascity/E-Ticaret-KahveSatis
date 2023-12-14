@@ -1,6 +1,5 @@
 <?php
 try{
-  echo "adsfas";
 if ($_POST) { 
     include("../../inc/db.php"); 
 

@@ -102,7 +102,9 @@ include "inc/header.php";
         </div>
     </div>
 </div>
-
+<?php
+include "inc/footer.php";
+?>
 <script>
  $(document).ready(function() {
         const elements = document.getElementsByName('ap');
@@ -213,6 +215,3 @@ include "inc/header.php";
 
 </script>
 
-<?php
-include "inc/footer.php";
-?>

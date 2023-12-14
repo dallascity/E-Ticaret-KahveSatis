@@ -116,8 +116,8 @@ try {
             $query->bindParam(':weight', $weight);
             $query->bindParam(':weight_type', $weightType);
             $query->bindParam(':stock', $stock);
-            $query->bindParam(':status', $status);
-            $query->bindParam(':photo_type', $photostatus);
+            $query->bindParam(':status', $status,PDO::PARAM_BOOL);
+            $query->bindParam(':photo_type', $photostatus,PDO::PARAM_BOOL);
             $query->execute();
       
   

@@ -36,8 +36,7 @@ include "inc/header.php";
                                             <label class="form-label" for="add2">Ürün İsmi</label>
                                             <input onkeypress="preventNumbers(event)" type="text" class="form-control" id="product" name="product" required placeholder="Ürün İsmi" maxlength="30" value="<?= $fetch['name'] ?>">
                                             <label class="form-label" for="add2">Açıklama (boş bırakılabilir)</label>
-                                            <textarea placeholder="Boş bırakılabilir" onkeypress="" type="text" class="form-control" id="description" name="description" placeholder="Menü İsmi"> <?= $fetch['description'] ?> </textarea>
-
+                                            <textarea placeholder="Boş bırakılabilir" onkeypress="" type="text" class="form-control" id="description" name="description" placeholder="Menü İsmi"><?= $fetch['description'] ?></textarea>
                                             <div class="form-group">
                                                 <div class="row">
                                                     <div class="col-md-6">
@@ -47,8 +46,10 @@ include "inc/header.php";
                                                     <div class="col-md-6">
                                                         <label for="city">Birim Tipi</label>
                                                         <select id="select" name="weight_type" id="weight_type" class="form-select">
-                                                            <option value="<?= $fetch['weight_type'] ?>"><?= $fetch['weight_type'] ?></option>
-                                                            <?php foreach ($birim as $b) echo "<option value='$b'>$b</option>"; ?>
+                                                            <?php foreach ($birim as $b) {
+                                                                $selected = ($b === $fetch['weight_type']) ? 'selected' : '';
+                                                                echo "<option value='$b' $selected>$b</option>";
+                                                            } ?>
                                                         </select>
                                                     </div>
                                                 </div>
@@ -74,19 +75,19 @@ include "inc/header.php";
                                                 <label class="form-check-label" for="resimUrl">URL</label>
                                             </div>
                                             <div class="mb-3 form-check">
-                                                <input type="radio" class="form-check-input" id="resimDosya" name="phototype" value="dosya"  <?= $fetch['photo_type'] == 1 ? 'checked="checked"' : '' ?>>
+                                                <input type="radio" class="form-check-input" id="resimDosya" name="phototype" value="dosya" <?= $fetch['photo_type'] == 1 ? 'checked="checked"' : '' ?>>
                                                 <label class="form-check-label" for="resimDosya">Dosya Yükle</label>
                                             </div>
                                         </div>
                                         <div class="form-group col-md-5">
                                             <div class="card" style="width: 250px;">
-                                                <img id="resim-onizleme" src="" class="card-img-top" alt="Resim">
+                                                <img id="resim-onizleme" src="<?= $fetch['photo_type'] == 1 ? '../assets/gallery/' . $fetch['photo'] : $fetch['photo'] ?>" class="card-img-top" alt="Resim">
                                             </div>
                                         </div>
                                         <div id="resimUrlAlan" style="display: none;">
                                             <div class="mb-3">
                                                 <label for="resimUrl" class="form-label">Resim URL</label>
-                                                <input value="<?= $fetch['photo'] ?>" type="text" class="form-control" id="resimUrl" name="photoUrl" oninput="gosterResim(this.value)">
+                                                <input <?= $fetch['photo_type'] == 0 ? 'value=' . $fetch['photo'] : '' ?> type="text" class="form-control" id="resimUrl" name="photoUrl" oninput="gosterResim(this.value)">
                                             </div>
                                         </div>
                                         <div id="resimDosyaAlan" style="display: none;">
@@ -100,13 +101,13 @@ include "inc/header.php";
 
                                     <div class="form-group col-md-6">
                                         <label class="switch">
-                                            <input  <?= $fetch['status'] == 1 ? 'checked="checked"' : ''?> name="status" class="btn btn-primary" type="checkbox" data-toggle="switchbutton" data-onlabel="Açık" data-offlabel="Kapalı">
+                                            <input <?= $fetch['status'] == 1 ? 'checked="checked"' : '' ?> name="status" class="btn btn-primary" type="checkbox" data-toggle="switchbutton" data-onlabel="Açık" data-offlabel="Kapalı">
                                             <input id="switch-two" type="checkbox">
                                         </label>
                                     </div>
 
 
-                                    <button type="submit" id="update" name="update" class="btn btn-primary">Oluştur</button>
+                                    <button type="submit" id="update" name="update" class="btn btn-primary">Değişiklikleri kaydet</button>
                                 </form>
                             <?php
                             } catch (PDOException $e) {
@@ -131,9 +132,9 @@ include "inc/footer.php";
 include "actions/updateproductaction.php";
 ?>
 <script>
-    $('#form').submit(function(event) {
-        event.preventDefault();
-    });
+    // $('#form').submit(function(event) {
+    //     event.preventDefault();
+    // });
 
 
 
