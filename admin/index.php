@@ -63,7 +63,7 @@ include "inc/header.php";
                                                     <td> <?= $row['price'] . "TL" ?> </td>
                                                     <td> <?= $row['weight'] . " " . $row['weight_type'] ?> </td>
                                                     <td class="fs-5" id="stock" contenteditable="true" onBlur="stockUpdate(this,'stock','<?php echo $row['product_id'] ?>')"
-                                                     onClick="stockClicked(this);"><?= $row['stock'] ?></td>
+                                                     onClick="stockClicked(this);" onkeypress="return event.charCode >= 48 && event.charCode <= 57"><?= $row['stock'] ?></td>
                                                     <td>
                                                         <label class="switch">
                                                             <input <?= $row['status'] == 1 ? 'checked' : '' ?> id='<?= $row['product_id'] ?>' name="ap" type="checkbox" id='' class="btn btn-succes" data-toggle="switchbutton" data-onlabel="Açık" data-offlabel="Kapalı">
@@ -71,13 +71,13 @@ include "inc/header.php";
                                                     </td>
                                                     <td>
                                                         <div class="flex align-items-center list-user-action">
-                                                            <a href="" class="btn btn-sm btn-icon btn-success" data-toggle="tooltip" data-placement="top" title="" data-original-title="Add" href="#">
+                                                            <a href="updateproduct.php?id=<?=$row['product_id']?>" class="btn btn-sm btn-icon btn-success" data-toggle="tooltip" data-placement="top" title="" data-original-title="Add" href="#">
                                                                 <span class="btn-inner">
                                                                     <i class="fa fa-edit text-center"></i>
                                                                 </span>
                                                             </a>
 
-                                                            <a onclick="confirmAndDelete(<?=$row['product_id']?>,'products','<?=$row['photo']?>',<?=$row['stock']?>)" class="btn btn-sm btn-icon btn-danger" data-toggle="tooltip" data-placement="top" title="" data-original-title="Delete">
+                                                            <a onclick="confirmAndDelete(<?=$row['product_id']?>,'products','../../assets/gallery/<?=$row['photo']?>')" class="btn btn-sm btn-icon btn-danger" data-toggle="tooltip" data-placement="top" title="" data-original-title="Delete">
                                                                 <span class="btn-inner">
                                                                     <i class="fa fa-trash text-center"></i>
                                                                 </span>
@@ -136,7 +136,7 @@ include "inc/header.php";
 
     });
 
-    function confirmAndDelete(id, table, url, stock) {
+    function confirmAndDelete(id, table, url) {
         const silinecekSatir = $("#rank-" + id);
         const silinecektablo = $(this).parents('tr');
         Swal.fire({
@@ -155,7 +155,6 @@ include "inc/header.php";
                     id: id,
                     table: table,
                     url: url,
-                    stock:stock
                 };
 
                 $.ajax({

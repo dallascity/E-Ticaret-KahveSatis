@@ -6,9 +6,11 @@ if($_POST){
 $id = $_POST['id'];
 $table = $_POST['table']; 
 $photo = $_POST['url'];
-$stock = $_POST['stock'];
-
+  
 try {
+    $control = $db->query("SELECT stock from products where product_id=$id");
+    $result = $control->fetch(PDO::FETCH_ASSOC);
+    $stock = $result['stock'];
     if($stock <= 0){
     $sqlDelete = "DELETE FROM $table WHERE product_id = :id";
     $stmt = $db->prepare($sqlDelete);

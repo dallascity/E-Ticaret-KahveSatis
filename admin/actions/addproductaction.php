@@ -41,14 +41,14 @@ try {
             } else if (preg_match('/[<>\/&()=?\"\'*@\£½{}\\\]/', $description)) {
                 $error = "Açıklamada yasaklı karakterler kullanılıyor yasaklı karakterler (<>\/&()=?\"\'*@\£½{}\\\).";
                 errorAlert($error);
-            } else if (!preg_match('/^[0-9]+(\.[0-9]+)?$/', $weight)) {
-                $error = "Ağırlık değeri sadece sayı ve nokta içerebilir.";
+            } else if (!preg_match('/^[0-9]+(\.[0-9]+)?$/', $weight && $weight > 0) ) {
+                $error = "Ağırlık değeri sadece pozitif sayı ve nokta içerebilir.";
                 errorAlert($error);
-            } else if (!preg_match('/^[0-9]+(\.[0-9]+)?$/', $price)) {
-                $error = "Fiyat sadece sayı ve nokta içerebilir.";
+            } else if (!preg_match('/^[0-9]+(\.[0-9]+)?$/', $price  && $price > 0)) {
+                $error = "Fiyat sadece pozitif sayı ve nokta içerebilir.";
                 errorAlert($error);
-            } else if (!ctype_digit($stock)) {
-                $error = "Stok değeri sadece sayı içermelidir.";
+            } else if (!ctype_digit($stock) && $stock >= 0) {
+                $error = "Stok değeri sadece pozitif sayı içermelidir.";
                 errorAlert($error);    
             } 
             else if (!in_array($weightType, $birim)) {

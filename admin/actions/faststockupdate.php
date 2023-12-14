@@ -11,7 +11,7 @@ if ($_POST) {
 
 
 
-    if($stock != null && preg_match("/^[0-9]+$/", $stock)){
+    if($stock != null && preg_match("/^[0-9]+$/", $stock) && $stock >= 0){
       if ($db->query("UPDATE products SET $column = '$stock' WHERE product_id=$id")) 
       {
          echo true; 
