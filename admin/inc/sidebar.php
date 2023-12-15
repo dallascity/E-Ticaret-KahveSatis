@@ -27,11 +27,11 @@
                         </a>
                     </li>                
                     <li class="nav-item">
-                        <a class="nav-link <?=$sayfa == "HATA RAPORLARI" ? 'active' : '' ?>" href="catchlog">
+                        <a class="nav-link <?=$sayfa == "Kampanya" ? 'active' : '' ?>" href="promotions.php">
                             <i class="icon">
                              <i class="fa-solid fa-document"></i>
                             </i>
-                            <span class="item-name">HATA RAPORLARI</span>
+                            <span class="item-name">Kampanya Kodları</span>
                         </a>
                     </li>
                 </ul>
