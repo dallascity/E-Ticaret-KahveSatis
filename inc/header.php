@@ -8,6 +8,17 @@ if ($sayfa != "login" && $sayfa != "register") {
         route("login.php");
     }
 }
+if(isset($_SESSION['shopcart'])){
+    $shopCart=$_SESSION['shopcart'];
+    $totalCount=$shopCart['summary']['total_count'];
+    $totalPrice=$shopCart['summary']['total_price'];
+    $products = $shopCart['products'];
+
+}
+else{
+    $totalCount=0;
+    $totalPrice=0;
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -56,11 +67,11 @@ if ($sayfa != "login" && $sayfa != "register") {
                         </ul>
                     </div>
                     <div class="position-relative">
-                        <a href="#" class="btn btn-outline-light me-3" data-bs-toggle="offcanvas" data-bs-target="#offcanvasWithBothOptions" aria-controls="offcanvasWithBothOptions">
+                        <a href="shopcard.php" class="btn btn-outline-light me-3">
                             <i class="fas fa-shopping-cart"></i>
                         </a>
-                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                            0 TL
+                        <span class="cart-price position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                            <?=$totalPrice."TL"?>
                             <span class="visually-hidden">Sepet Tutarı</span>
                         </span>
                     </div>
@@ -68,18 +79,5 @@ if ($sayfa != "login" && $sayfa != "register") {
             </div>
         </div>
     </nav>
-
-
-    <!-- SEPET EKRANI -->
-
-    <div class="offcanvas offcanvas-start" data-bs-scroll="true" tabindex="-1" id="offcanvasWithBothOptions" aria-labelledby="offcanvasWithBothOptionsLabel">
-        <div class="offcanvas-header">
-            <h5 class="offcanvas-title" id="offcanvasWithBothOptionsLabel">Backdrop with scrolling</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-        </div>
-        <div class="offcanvas-body">
-            <p>Try scrolling the rest of the page to see this option in action.</p>
-        </div>
-    </div>
 
 </head>
