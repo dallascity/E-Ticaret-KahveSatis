@@ -1,7 +1,19 @@
 <?php
 $sayfa = "sepet";
 include "inc/header.php";
+if(isset($_SESSION['promotion'])){
+$promotion=$_SESSION['promotion'];
+if($totalPrice > 1000){
 
+}
+else if($totalPrice > 1500){
+
+}
+else if($totalPrice > 2000){
+
+}
+else if($totalPrice > 3000)
+}
 
 ?>
 <style> 
@@ -42,6 +54,7 @@ td{
                 
                 <?php
                 try{
+                    if(isset($products)):
                 foreach($products as $row){ ?>
                 <tr>
                     <td class="text-center"><img src="<?= $row->photo_type == true ? 'assets/gallery/' . $row->photo: $row->photo?>"alt="Photo" width="70"></td>
@@ -58,14 +71,17 @@ td{
                     <button id='<?=$row->product_id?>' class="btn btn-danger btn-sm removeCartBtn">Sepetten Çıkar</button>
                 </td>
                 </tr>
-                <?php }}catch(Exception $e){
+                <?php
+              
+                }   endif;   } catch(Exception $e){
                     echo $e->getMessage();
                 } ?>
 
             </tbody>
             <tfoot>
                 <th> Promosyon Kodu:
-                 <input type="text" name="promocode" placeholder="Zorunlu değil">
+                 <input type="text" name="promocode" id="promoCode" maxlength="10" placeholder="Zorunlu değil">
+                 <button class="btn btn-success promotionBtn  ">Aktif Et</button>
                 </th>
                 <th colspan="4" class="text-end">Toplam Ürün <span class="color-danger"> <?=$totalCount?></span></th>
                 <th colspan="1" >Toplam Fiyat :  <span class="color-danger"> <?=$totalPrice?></span></th>
@@ -113,7 +129,31 @@ $(".decCount").click(function() {
     handleAction("decCount", productId);
 });
 
+            $('.promotionBtn').click(function() {
+              
+                var process = true
+                var promotion = $('#promoCode').val();
+            
+                $.ajax({
+                    url: 'actions/promotionaction.php',
+                    method: 'POST',
+                    data: {
+                        process:process,
+                        promotion:promotion
+                    },
+                    success: function(result) {
+                        $('body').append(result);
+                    },
+                    error: function(error) {
+                        console.log(error);
+                    }
+                });
+            });
+
+
 })
+
+
 
 
 </script>
