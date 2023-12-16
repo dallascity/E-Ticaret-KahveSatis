@@ -74,7 +74,7 @@ if ($sumtotalPrice == 0 || $sumtotalPrice > 500) {
                 </thead>
 
                 <tbody>
-
+                    <form method="POST">
                     <?php
                     try {
                         if (isset($products)) :
@@ -123,11 +123,12 @@ if ($sumtotalPrice == 0 || $sumtotalPrice > 500) {
                             <span class="color-danger"><?= $discount ?></span>
                             <br>
                             Toplam:
-                            <span class="color-danger"><?= $sumtotalPrice ?></span>
+                            <span class="color-danger" id='sumtotal'><?= $sumtotalPrice ?></span>
                         </th>
                         </th>
-                        <th colspan="2" class="text-end"><button class="btn btn-success accept  ">Sepeti Onayla</button></th>
+                        <th colspan="2" class="text-end"><button type='submit' class="btn btn-success">Sepeti Onayla</button></th>
                     </tr>
+                    </form>
                 </tfoot>
 
 
@@ -191,25 +192,6 @@ include "inc/footer.php";
             });
         });
 
-        $('.accept').click(function() {
-
-            var process = true
-            
-
-            $.ajax({
-                url: 'actions/buyorder.php',
-                method: 'POST',
-                data: {
-                    process: process,
-                },
-                success: function(result) {
-                    $('body').append(result);
-                },
-                error: function(error) {
-                    console.log(error);
-                }
-            });
-        });
 
 
     })
