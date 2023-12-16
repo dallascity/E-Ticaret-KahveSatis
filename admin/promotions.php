@@ -27,12 +27,10 @@ include "inc/header.php";
                                     <thead>
                                         <tr class="ligth">
                                             <th>Kampanya Kodu</th>
-                                            <th>İndirim Yüzdesi</th>
                                             <th>Oluşturma Tarihi</th>
                                             <th>Bitiş Tarihi</th>
                                             <th>Limit</th>
                                             <th>Durum</th>
-                                            <th style="min-width: 100px">Seçenekler</th>
                                         </tr>
                                     </thead>
                                     <tbody id="">
@@ -45,7 +43,6 @@ include "inc/header.php";
                                         ?>
                                                 <tr id="rank-<?= $row['promotions'] ?>">
                                                     <td><?= $row['promotions'] ?></td>
-                                                    <td> <?= "%" . $row['discount_percentage'] ?> </td>
                                                     <td> <?= $row['create_date'] ?> </td>
                                                     <td> <?= $row['finish_date'] ?> </td>
                                                     <td> <?= $row['count'] ?> </td>
@@ -53,22 +50,6 @@ include "inc/header.php";
                                                     <label class="switch">
                                                         <input <?= $row['status'] == 1 ? 'checked' : '' ?> id='<?= $row['promotions'] ?>' name="ap" type="checkbox" id='' class="btn btn-succes" data-toggle="switchbutton" data-onlabel="Açık" data-offlabel="Kapalı">
                                                     </label>
-                                                    </td>
-                                                    <td>
-                                                        <div class="flex align-items-center list-user-action">
-                                                            <a href="promotionsupdate.php?id=<?= $row['promotions'] ?>" class="btn btn-sm btn-icon btn-success" data-toggle="tooltip" data-placement="top" title="" data-original-title="Add" href="#">
-                                                                <span class="btn-inner">
-                                                                    <i class="fa fa-edit text-center"></i>
-                                                                </span>
-                                                            </a>
-
-                                                            <a onclick="confirmAndDelete()" class="btn btn-sm btn-icon btn-danger" data-toggle="tooltip" data-placement="top" title="" data-original-title="Delete">
-                                                                <span class="btn-inner">
-                                                                    <i class="fa fa-trash text-center"></i>
-                                                                </span>
-                                                            </a>
-                                                        </div>
-                                                    </td>
                                                 </tr>
                                         <?php
                                             }
@@ -131,7 +112,6 @@ include "inc/footer.php";
                     method: 'POST',
                     data: {
                         insert:insert,
-                        discount: discount,
                         limit: limit,
                         endDate: endDate
                     },
@@ -146,56 +126,5 @@ include "inc/footer.php";
             });
     });
 </script>
-
-<script>
-
-    function confirmAndDelete(id, table, url) {
-        const silinecekSatir = $("#rank-" + id);
-        const silinecektablo = $(this).parents('tr');
-        Swal.fire({
-            title: 'Silmek istediğine emin misin?',
-            text: "Promosyon silinecektir!",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            cancelButtonText: 'İptal',
-            confirmButtonText: 'Evet, Sil!'
-        }).then((result) => {
-            if (result.isConfirmed) {
-
-                var data = {
-                    id: id,
-                    table: table,
-                    url: url,
-                };
-
-                $.ajax({
-                    url: 'actions/promotionsdelete.php',
-                    method: 'POST',
-                    data: data,
-                    success: function(response) {
-                        $('body').append(response);
-                        if (response == null || response == "") {
-                            silinecekSatir.remove();
-                        }
-                    },
-                    error: function(xhr, status, error) {
-                        console.log(error);
-                        console.log(status);
-                        console.log(xhr);
-
-                        Swal.fire(
-                            'Hata!',
-                            'Bir hata ile karşılaşıldı sayfayı yenileyip tekrar deneyin.',
-                            'error'
-                        );
-                    }
-                });
-            }
-        });
-    }
-
-
 
 

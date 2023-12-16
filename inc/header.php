@@ -4,7 +4,7 @@ include "inc/function.php";
 session_start();
 ob_start();
 if ($sayfa != "login" && $sayfa != "register") {
-    if (!(isset($_SESSION["oturum"]) || $_SESSION["oturum"] != 1)) {
+    if (!(isset($_SESSION["oturum"]) )) {
         route("login.php");
     }
 }

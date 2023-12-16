@@ -13,16 +13,6 @@
             <div class="modal-body">
     <form id="insertform" action="promotions.php" method="post">
         <div class="mb-3">
-            <label for="discountSelect" class="form-label">İndirim Yüzdesi</label>
-            <select class="form-select" id="discount" aria-label="Discount Select" name="discount" required>
-                <option selected disabled>Seçiniz</option>
-                <?php foreach($percent as $p){
-                    echo "<option value='$p'>$p</option>";
-                }    
-                ?>
-            </select>
-        </div>
-        <div class="mb-3">
             <label for="limitInput" class="form-label">Limit</label>
             <input type="number" class="form-control" id="limit" name="limit" placeholder="Limit miktarı" required>
         </div>
