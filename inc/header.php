@@ -14,6 +14,7 @@ if(isset($_SESSION['shopcart'])){
     $totalPrice=$shopCart['summary']['total_price'];
     $products = $shopCart['products'];
 
+
 }
 else{
     $totalCount=0;
