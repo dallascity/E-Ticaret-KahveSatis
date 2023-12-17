@@ -1,29 +1,58 @@
 <?php
 $sayfa = "sepet";
 include "inc/header.php";
+
+$query = "SELECT * FROM products";
+$giftcheck = $db->query($query, PDO::FETCH_OBJ)->fetch();
+
 $cargoprice = 54.99;
 $discount = 0;
 $sumtotalPrice = isset($_SESSION['shopcart']) ? $shopCart['summary']['total_price'] : 0;
+if(isset($_SESSION['gift'])) $gift = $_SESSION['gift'];
+$show = "";
 
     $promotion=null;
+
+ 
+
+
 if (isset($_SESSION['promotion']) && isset($_SESSION['shopcart'])) {
     $promotion = $_SESSION['promotion'];
     if ($totalPrice > 3000) {
         $discount = $totalPrice * 0.25;
         $sumtotalPrice = $totalPrice - $discount;
         $cargoprice = 0;
+        $show = "(%25 indirim)";
+   
+        
+        if(!isset($_SESSION['gift'])){
+            $query = "SELECT * FROM products WHERE stock > 0 ORDER BY RAND() LIMIT 1";
+            $giftcheck = $db->query($query, PDO::FETCH_OBJ)->fetch();
+        
+            if ($giftcheck) {
+                $_SESSION['gift'] = $giftcheck;
+                $gift = $_SESSION['gift'];
+                $gift->count=1;
+                $gift->weight_type="Kilogram";
+                $gift->weight=1;
+            }
+        }
+
     } else if ($totalPrice > 2000) {
         $discount = $totalPrice * 0.20;
         $sumtotalPrice = $totalPrice - $discount;
         $cargoprice = 0;
+        $show = "(%20 indirim)";
     } else if ($totalPrice > 1500) {
         $discount = $totalPrice * 0.15;
         $sumtotalPrice = $totalPrice - $discount;
         $cargoprice = 0;
+        $show = "(%15 indirim)";
     } else if ($totalPrice > 1000) {
         $discount = $totalPrice * 0.10;
         $sumtotalPrice = $totalPrice - $discount;
         $cargoprice = 0;
+        $show = "(%10 indirim)";
     } else {
         $discount = 0;
         $sumtotalPrice = $shopCart['summary']['total_price'];
@@ -34,6 +63,9 @@ if ($sumtotalPrice == 0 || $sumtotalPrice > 500) {
 } else {
     $sumtotalPrice = $sumtotalPrice + $cargoprice;
 }
+
+
+
 
 ?>
 <style>
@@ -112,8 +144,26 @@ if ($sumtotalPrice == 0 || $sumtotalPrice > 500) {
 
                 </tbody>
                 <tfoot>
+                    <?php    if (isset($gift)) : ?>
                     <tr>
-                        <th> Promosyon Kodu:
+                    <td class="text-center"><img src="<?= $gift->photo_type == true ? 'assets/gallery/' . $gift->photo : $gift->photo ?>" alt="Photo" width="70"></td>
+                                    <td class="text-center"><?= $gift->name ?></td>
+                                    <td class="text-center"><?= $livestock['stock'] ?></td>
+                                    <td class="text-center"><?= $gift->weight . " " . $gift->weight_type ?></td>
+                                    <td class="text-center"> - </td>
+                                    <td class="text-center">
+                
+                                        <input type="text" class="itemcount" value="<?= $gift->count ?>" readonly>
+
+                                    </td>
+                                    <td class="text-center">0 TL</td>
+                                    <td class="text-center">
+                                        <span class="btn btn-success btn-sm">Hediye</span>
+                                    </td>
+                    </tr>
+                   <?php endif; ?>
+                    <tr>
+                        <th> Kampanya Kodu:
                             <input type="text" name="promocode" id="promoCode" maxlength="10" placeholder="Zorunlu değil">
                             <button class="btn btn-success promotionBtn  ">Aktif Et</button>
                         </th>
@@ -127,7 +177,8 @@ if ($sumtotalPrice == 0 || $sumtotalPrice > 500) {
                             Kargo Fiyatı:
                             <span class="color-danger"><?= $cargoprice ?></span>
                             <br>
-                            İndirim Tutarı:
+                            <?php echo (isset($_SESSION['promotion']))? "(Kampanya Aktif)":"(Kampanya kodunuz yok)"; ?>
+                            İndirim Tutarı <?=$show ?>:
                             <span class="color-danger"><?= $discount ?></span>
                             <br>
                             Toplam:

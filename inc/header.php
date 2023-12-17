@@ -61,8 +61,7 @@ else{
                             <?= $_SESSION['name'] . " " . $_SESSION['surname'] ?>
                         </button>
                         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
-                            <li><a class="dropdown-item" href="#">Hesap Bilgileri</a></li>
-                            <li><a class="dropdown-item" href="#">Siparişlerim</a></li>
+                            <li><a class="dropdown-item" href="orders.php">Siparişlerim</a></li>
                             <li>
                                 <hr class="dropdown-divider">
                             </li>

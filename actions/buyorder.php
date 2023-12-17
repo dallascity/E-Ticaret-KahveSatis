@@ -37,7 +37,7 @@ try {
                 echo '</script>';
             }
             else{
-            $query = $db->prepare('INSERT INTO orders (user_id, promotions,price,cargoprice, decprice , totalprice,totalcount,create_date) VALUES (:uid, :promotions,:price ,:decprice ,:cargo, :total,:totalcount,CURRENT_DATE())');
+            $query = $db->prepare('INSERT INTO orders (user_id, promotions,price,cargoprice, decprice ,  totalprice,totalcount,create_date,status) VALUES (:uid, :promotions,:price ,:cargo,:decprice , :total,:totalcount,CURRENT_DATE(),1)');
             $query->bindParam(':uid', $userid);
             $query->bindParam(':promotions', $promotion);
             $query->bindParam(':price', $totalPrice);
@@ -52,10 +52,12 @@ try {
                 $count = $row->count;
                 $productPrice = $row->price;
                 $productTotalPrice = $row->total_price;
-                $query = $db->prepare('INSERT INTO orderdetail (order_id, user_id, products_id, count, price, totalprice) VALUES (:oid, :uid, :pid, :count, :price, :total)');
+                $weight = $row->weight;
+                $query = $db->prepare('INSERT INTO orderdetail (order_id, user_id, products_id, weight,count, price, totalprice) VALUES (:oid, :uid, :pid,:w, :count, :price, :total)');
                 $query->bindParam(':oid', $insertid);
                 $query->bindParam(':uid', $userid);
                 $query->bindParam(':pid', $product_id);
+                $query->bindParam(':w', $weight);
                 $query->bindParam(':count', $count);
                 $query->bindParam(':price', $productPrice);
                 $query->bindParam(':total', $productTotalPrice);
@@ -66,6 +68,22 @@ try {
                 $query->bindParam(':pid', $product_id);
                 $query->execute();
 
+            }
+            if(isset($gift)){
+                $product_id = $gift->product_id;
+                $count = $gift->count;
+                $weight = $gift->weight;
+                $query = $db->prepare('INSERT INTO orderdetail (order_id, user_id, products_id, weight, count, price, totalprice) VALUES (:oid, :uid, :pid, :count,:w, :price, :total)');
+                $query->execute([
+                    ':oid' => $insertid,
+                    ':uid' => $userid,
+                    ':pid' => $product_id,
+                    ':w' => $weight,
+                    ':count' => $count,
+                    ':price' => 0,
+                    ':total' => 0,
+                ]);
+                unset($_SESSION['gift']);
             }
             unset($products);
             unset($_SESSION['shopcart']);

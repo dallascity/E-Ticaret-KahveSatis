@@ -5,7 +5,7 @@ session_start();
 try {
     $error = null;
     if (isset($_SESSION['promotion'])) {
-        $error = "Zaten kupon kodunuz aktif";
+        $error = "Zaten kampanya kodunuz aktif";
         errorAlert($error);
     }
 
@@ -24,13 +24,13 @@ try {
                 $inorderhavepromotion->bindParam(':pro', $promotion,PDO::PARAM_STR);
                 $inorderhavepromotion->execute();
                 if ($inorderhavepromotion->rowCount() >= 1) {
-                    errorAlert("Bu kupon kodunu önceden kullanmışsınız");
+                    errorAlert("Bu kampanya kodunu önceden kullanmışsınız");
                 } else {
-                    successAlert("Başarılı","Kupon kodunuz otumunuzda aktif edildi",'shopcard.php');
+                    successAlert("Başarılı","Kampanya kodunuz otumunuzda aktif edildi",'shopcard.php');
                     $_SESSION["promotion"] = $promotion;
                 }
             } else {
-                errorAlert("Kupon kodu geçersiz");
+                errorAlert("Kampanya kodu geçersiz");
             }
         }
     } else {

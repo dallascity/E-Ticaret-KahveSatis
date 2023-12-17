@@ -1,6 +1,6 @@
 <aside class="sidebar sidebar-default navs-shape">
         <div class="sidebar-header d-flex align-items-center justify-content-start">
-            <a href="panel" class="navbar-brand d-flex justify-content-center align-items-center">
+            <a href="../index.php" class="navbar-brand d-flex justify-content-center align-items-center">
         
             <i class="fa fa-coffee" aria-hidden="true"></i>
         
