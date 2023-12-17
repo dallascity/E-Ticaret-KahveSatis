@@ -8,12 +8,12 @@ $giftcheck = $db->query($query, PDO::FETCH_OBJ)->fetch();
 $cargoprice = 54.99;
 $discount = 0;
 $sumtotalPrice = isset($_SESSION['shopcart']) ? $shopCart['summary']['total_price'] : 0;
-if(isset($_SESSION['gift'])) $gift = $_SESSION['gift'];
+if (isset($_SESSION['gift'])) $gift = $_SESSION['gift'];
 $show = "";
 
-    $promotion=null;
+$promotion = null;
 
- 
+
 
 
 if (isset($_SESSION['promotion']) && isset($_SESSION['shopcart'])) {
@@ -23,21 +23,20 @@ if (isset($_SESSION['promotion']) && isset($_SESSION['shopcart'])) {
         $sumtotalPrice = $totalPrice - $discount;
         $cargoprice = 0;
         $show = "(%25 indirim)";
-   
-        
-        if(!isset($_SESSION['gift'])){
+
+
+        if (!isset($_SESSION['gift'])) {
             $query = "SELECT * FROM products WHERE stock > 0 ORDER BY RAND() LIMIT 1";
             $giftcheck = $db->query($query, PDO::FETCH_OBJ)->fetch();
-        
+
             if ($giftcheck) {
                 $_SESSION['gift'] = $giftcheck;
                 $gift = $_SESSION['gift'];
-                $gift->count=1;
-                $gift->weight_type="Kilogram";
-                $gift->weight=1;
+                $gift->count = 1;
+                $gift->weight_type = "Kilogram";
+                $gift->weight = 1;
             }
         }
-
     } else if ($totalPrice > 2000) {
         $discount = $totalPrice * 0.20;
         $sumtotalPrice = $totalPrice - $discount;
@@ -107,7 +106,7 @@ if ($sumtotalPrice == 0 || $sumtotalPrice > 500) {
                 </thead>
 
                 <tbody>
-                 
+
                     <?php
                     try {
                         if (isset($products)) :
@@ -116,8 +115,8 @@ if ($sumtotalPrice == 0 || $sumtotalPrice > 500) {
                                 $live->bindParam(':pid', $row->product_id);
                                 $live->execute();
                                 $livestock = $live->fetch(PDO::FETCH_ASSOC)
-                                
-                                ?>
+
+                    ?>
                                 <tr>
                                     <td class="text-center"><img src="<?= $row->photo_type == true ? 'assets/gallery/' . $row->photo : $row->photo ?>" alt="Photo" width="70"></td>
                                     <td class="text-center"><?= $row->name ?></td>
@@ -144,31 +143,44 @@ if ($sumtotalPrice == 0 || $sumtotalPrice > 500) {
 
                 </tbody>
                 <tfoot>
-                    <?php    if (isset($gift)) : ?>
-                    <tr>
-                    <td class="text-center"><img src="<?= $gift->photo_type == true ? 'assets/gallery/' . $gift->photo : $gift->photo ?>" alt="Photo" width="70"></td>
-                                    <td class="text-center"><?= $gift->name ?></td>
-                                    <td class="text-center"><?= $livestock['stock'] ?></td>
-                                    <td class="text-center"><?= $gift->weight . " " . $gift->weight_type ?></td>
-                                    <td class="text-center"> - </td>
-                                    <td class="text-center">
-                
-                                        <input type="text" class="itemcount" value="<?= $gift->count ?>" readonly>
+                    <?php if (isset($gift)) : ?>
+                        <tr>
+                            <td class="text-center"><img src="<?= $gift->photo_type == true ? 'assets/gallery/' . $gift->photo : $gift->photo ?>" alt="Photo" width="70"></td>
+                            <td class="text-center"><?= $gift->name ?></td>
+                            <td class="text-center"><?= $livestock['stock'] ?></td>
+                            <td class="text-center"><?= $gift->weight . " " . $gift->weight_type ?></td>
+                            <td class="text-center"> - </td>
+                            <td class="text-center">
 
-                                    </td>
-                                    <td class="text-center">0 TL</td>
-                                    <td class="text-center">
-                                        <span class="btn btn-success btn-sm">Hediye</span>
-                                    </td>
-                    </tr>
-                   <?php endif; ?>
+                                <input type="text" class="itemcount" value="<?= $gift->count ?>" readonly>
+
+                            </td>
+                            <td class="text-center">0 TL</td>
+                            <td class="text-center">
+                                <span class="btn btn-success btn-sm">Hediye</span>
+                            </td>
+                        </tr>
+                    <?php endif; ?>
                     <tr>
                         <th> Kampanya Kodu:
                             <input type="text" name="promocode" id="promoCode" maxlength="10" placeholder="Zorunlu değil">
                             <button class="btn btn-success promotionBtn  ">Aktif Et</button>
                         </th>
-                        <th colspan="4" class="text-end">Toplam Ürün <span class="color-danger"> <?= $totalCount ?></span></th>
-                        <th colspan="1">
+
+                        <th colspan="3">
+                            <?php if (isset($_SESSION['promotion'])) : ?>
+                                1000 TL üzeri %10
+                                <br>
+                                1500 TL üzeri %15
+                                <br>
+                                2000 TL üzeri %20
+                                <br>
+                                2500 TL üzeri %25
+                                <br>
+                                Kampanya kodu aktif
+                            <?php endif; ?>
+                        </th>
+                        <th colspan="2" class="text-end">Toplam Ürün <span class="color-danger"> <?= $totalCount ?></span></th>
                         <th colspan="1">
 
                             Ürün Toplam Fiyat:
@@ -177,8 +189,8 @@ if ($sumtotalPrice == 0 || $sumtotalPrice > 500) {
                             Kargo Fiyatı:
                             <span class="color-danger"><?= $cargoprice ?></span>
                             <br>
-                            <?php echo (isset($_SESSION['promotion']))? "(Kampanya Aktif)":"(Kampanya kodunuz yok)"; ?>
-                            İndirim Tutarı <?=$show ?>:
+                            <?php echo (isset($_SESSION['promotion'])) ? "(Kampanya Aktif)" : "(Kampanya kodunuz yok)"; ?>
+                            İndirim Tutarı <?= $show ?>:
                             <span class="color-danger"><?= $discount ?></span>
                             <br>
                             Toplam:
@@ -186,10 +198,10 @@ if ($sumtotalPrice == 0 || $sumtotalPrice > 500) {
                         </th>
                         </th>
                         <form method="POST">
-                        <th colspan="2" class="text-end"><button type='submit' name="order" class="btn btn-success">Sepeti Onayla</button></th>
+                            <th colspan="2" class="text-end"><button type='submit' name="order" class="btn btn-success">Sepeti Onayla</button></th>
                         </form>
                     </tr>
-                    
+
                 </tfoot>
 
 
