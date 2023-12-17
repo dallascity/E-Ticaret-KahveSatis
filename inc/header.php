@@ -45,6 +45,7 @@ else{
             </a>
 
             <div class="d-flex align-items-center">
+                    
                 <?php if (!isset($_SESSION['name']) && !isset($_SESSION['surname'])) : ?>
                     <a href="login.php" class="btn btn-outline-light me-3">Giriş</a>
                     <a href="register.php" class="btn btn-outline-light">Kayıt Ol</a>
@@ -53,6 +54,7 @@ else{
                     <a href="admin/index.php" class="btn btn-outline-light">Admin Panel</a>
                 <?php endif; ?>
                 <?php if (isset($_SESSION['name']) && isset($_SESSION['surname'])) : ?>
+                    <a href="index.php" class="btn btn-outline-light me-3">Anasayfa</a>
                     <div class="dropdown me-3">
                         <button class="btn dropdown-toggle text-light" type="button" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
                             <i class="fas fa-user me-1"></i>

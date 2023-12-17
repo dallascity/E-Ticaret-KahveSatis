@@ -13,8 +13,8 @@ try {
         if ($error == null) {
             $promotion = $_POST['promotion'];
             $promotion = htmlspecialchars(trim($promotion));
-        
-            $control = $db->prepare("SELECT promotions FROM promotions WHERE promotions=:pro and status= true");
+
+            $control = $db->prepare("SELECT promotions FROM promotions WHERE promotions=:pro and status= true and count > 0 and finish_date >=CURRENT_DATE()");
             $control->bindParam(':pro', $promotion,PDO::PARAM_STR);
             $control->execute();
             if ($control->rowCount() == 1) {
@@ -23,7 +23,7 @@ try {
                 $inorderhavepromotion->bindParam(':id', $id);
                 $inorderhavepromotion->bindParam(':pro', $promotion,PDO::PARAM_STR);
                 $inorderhavepromotion->execute();
-                if ($inorderhavepromotion->rowCount() == 1) {
+                if ($inorderhavepromotion->rowCount() >= 1) {
                     errorAlert("Bu kupon kodunu önceden kullanmışsınız");
                 } else {
                     successAlert("Başarılı","Kupon kodunuz otumunuzda aktif edildi",'shopcard.php');

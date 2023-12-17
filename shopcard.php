@@ -5,7 +5,7 @@ $cargoprice = 54.99;
 $discount = 0;
 $sumtotalPrice = isset($_SESSION['shopcart']) ? $shopCart['summary']['total_price'] : 0;
 
-
+    $promotion=null;
 if (isset($_SESSION['promotion']) && isset($_SESSION['shopcart'])) {
     $promotion = $_SESSION['promotion'];
     if ($totalPrice > 3000) {
@@ -66,6 +66,7 @@ if ($sumtotalPrice == 0 || $sumtotalPrice > 500) {
                 <thead>
                     <th class="text-center">Ürün resmi</th>
                     <th class="text-center">Ürün adı</th>
+                    <th class="text-center">Güncel Stok</th>
                     <th class="text-center">Paket</th>
                     <th class="text-center">Fiyatı</th>
                     <th class="text-center">Adeti</th>
@@ -74,14 +75,21 @@ if ($sumtotalPrice == 0 || $sumtotalPrice > 500) {
                 </thead>
 
                 <tbody>
-                    <form method="POST">
+                 
                     <?php
                     try {
                         if (isset($products)) :
-                            foreach ($products as $row) { ?>
+                            foreach ($products as $row) {
+                                $live = $db->prepare("SELECT stock FROM products WHERE product_id = :pid");
+                                $live->bindParam(':pid', $row->product_id);
+                                $live->execute();
+                                $livestock = $live->fetch(PDO::FETCH_ASSOC)
+                                
+                                ?>
                                 <tr>
                                     <td class="text-center"><img src="<?= $row->photo_type == true ? 'assets/gallery/' . $row->photo : $row->photo ?>" alt="Photo" width="70"></td>
                                     <td class="text-center"><?= $row->name ?></td>
+                                    <td class="text-center"><?= $livestock['stock'] ?></td>
                                     <td class="text-center"><?= $row->weight . " " . $row->weight_type ?></td>
                                     <td class="text-center"><?= $row->price ?></td>
                                     <td class="text-center">
@@ -91,7 +99,7 @@ if ($sumtotalPrice == 0 || $sumtotalPrice > 500) {
                                     </td>
                                     <td class="text-center"><?= $row->total_price ?></td>
                                     <td class="text-center">
-                                        <button id='<?= $row->product_id ?>' class="btn btn-danger btn-sm removeCartBtn">Sepetten Çıkar</button>
+                                        <span id='<?= $row->product_id ?>' class="btn btn-danger btn-sm removeCartBtn">Sepetten Çıkar</span>
                                     </td>
                                 </tr>
                     <?php
@@ -126,9 +134,11 @@ if ($sumtotalPrice == 0 || $sumtotalPrice > 500) {
                             <span class="color-danger" id='sumtotal'><?= $sumtotalPrice ?></span>
                         </th>
                         </th>
-                        <th colspan="2" class="text-end"><button type='submit' class="btn btn-success">Sepeti Onayla</button></th>
+                        <form method="POST">
+                        <th colspan="2" class="text-end"><button type='submit' name="order" class="btn btn-success">Sepeti Onayla</button></th>
+                        </form>
                     </tr>
-                    </form>
+                    
                 </tfoot>
 
 
@@ -139,6 +149,7 @@ if ($sumtotalPrice == 0 || $sumtotalPrice > 500) {
 </body>
 <?php
 include "inc/footer.php";
+include "actions/buyorder.php";
 ?>
 
 <script>
