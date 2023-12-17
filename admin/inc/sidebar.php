@@ -25,7 +25,15 @@
                             </i>
                             <span class="item-name">Ürünler</span>
                         </a>
-                    </li>                
+                    </li>        
+                    <li class="nav-item">
+                        <a class="nav-link <?=$sayfa == "Siparişler" ? 'active' : '' ?>" aria-current="page" href="order.php">
+                            <i class="icon">
+                             <i class="fa-solid fa-bars"></i>
+                            </i>
+                            <span class="item-name">Siparişler</span>
+                        </a>
+                    </li>          
                     <li class="nav-item">
                         <a class="nav-link <?=$sayfa == "Kampanya" ? 'active' : '' ?>" href="promotions.php">
                             <i class="icon">
