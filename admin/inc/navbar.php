@@ -44,7 +44,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-danger" data-bs-dismiss="modal">İptal</button>
-                    <a href="actions/logout.php" class="btn btn-primary">Çıkış Yap</a>
+                    <a href="../actions/logout.php" class="btn btn-primary">Çıkış Yap</a>
                 </div>
             </div>
         </div>
