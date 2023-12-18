@@ -18,7 +18,7 @@
   - 1500TL-%15
   - 2000TL-%20
   - 3000TL-%25
-  - 3000TL üzeri ürün hediye.
+  - 3000TL üzeri 1 kilo ürün hediye.
 - Siparişlerdeki bir ürünün adetinin arttırılması/azaltılması veya ürünün silinmesi gibi işlemler eklendi.
 - Müşteri sepeti onayladıktan sonra müşteriye email üzerinden onaylandığına dair mail gönderilmesi.
 - Müşterinin sipariş detayını görüntülemesi ve geçmiş siparişlerine bakabilmesi.
