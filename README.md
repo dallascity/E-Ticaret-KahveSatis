@@ -1,13 +1,13 @@
 # TurkTicaretNetCase
   EYMEN NAVDAR -> eymennavdar@gmail.com
 
- • XAMPP 3.3.0 üzerinde geliştirildi
- • Kullanılan diller: PHP,Javascript,HTML,CSS
- • Kullanılan Kütüphaneler: Jquery, Bootstrap
- • PHP Version 8.2.0
- • Veritabanı: MySQL
+ - XAMPP 3.3.0 üzerinde geliştirildi
+ - Kullanılan diller: PHP,Javascript,HTML,CSS
+ - Kullanılan Kütüphaneler: Jquery, Bootstrap
+ - PHP Version 8.2.0
+ - Veritabanı: MySQL
 
- • Ek Teknolojiler: -
+ - Ek Teknolojiler: -
 
 # Eklenen özellikler
 - Giriş ve kayıt olma işlemi.
