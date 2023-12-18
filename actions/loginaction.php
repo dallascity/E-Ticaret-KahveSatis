@@ -27,6 +27,7 @@ try {
                 $_SESSION["name"] = ucfirst($userdata['name']);
                 $_SESSION["surname"] = ucfirst($userdata['surname']);
                 $_SESSION['authority'] = $userdata['authority'];
+                $_SESSION['mail'] = $userdata['mail'];
                 $_SESSION['oturum'] = 1;
                 echo $_SESSION['oturum'];
                 if (isset($_POST["remember"])) setcookie("cookie", md5("aa" . $userdata['id'] . "bb"), time() + (60 * 60 * 24 * 1), "/ttcase");

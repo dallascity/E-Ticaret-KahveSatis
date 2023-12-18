@@ -1,4 +1,7 @@
 <?php
+
+use PHPMailer\PHPMailer\PHPMailer;
+
 try {
     if (isset($_POST['order'])) {
         if (!empty($products)) {
@@ -87,6 +90,50 @@ try {
             }
             unset($products);
             unset($_SESSION['shopcart']);
+
+            $mail_title   ="Kahve Dukkanından Siparişiniz onaylandı.<br>";
+            $mail_title    .="Kesilen Tutar:".$sumtotalPrice."TL<br>";
+            $usermail = $_SESSION['mail'];
+            $userfullname=$_SESSION['name']." ".$_SESSION['surname'];
+            require 'phpmailer/src/Exception.php';
+            require 'phpmailer/src/PHPMailer.php';
+            require 'phpmailer/src/SMTP.php';
+            
+            $mail = new PHPMailer(true);
+
+                //Server settings
+                $mail->SMTPDebug = 0; 
+                $mail->isSMTP();                                           
+                $mail->Host       = 'smtp-mail.outlook.com';                     
+                $mail->SMTPAuth   = true;                                  
+                $mail->Username   = 'biciriksozler@outlook.com';                     
+                $mail->Password   = '123456789eymen';                               
+                $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;            
+                $mail->Port       = 587;
+                $mail->SMTPSecure = 'STARTTLS';
+                $mail->CharSet    = "UTF-8";   
+                $mail->SMTPOptions = array(
+                    'ssl' => array(
+                    'verify_peer' => false,
+                    'verify_peer_name' => false,
+                    'allow_self_signed' => true
+                    )
+                );
+                                        
+            
+                //Recipients
+                $mail->setFrom('biciriksozler@outlook.com', 'Kahve Dükkanı');
+                $mail->addAddress($usermail, $userfullname);     
+                $mail->CharSet    = "UTF-8";   
+                $mail->isHTML(true);                                
+                $mail->Subject = 'Kahve Dükkanı Sipariş onaylandı';
+                $mail->Body    = $mail_title;
+                $mail->AltBody = $mail_title;
+            
+                $mail->send();
+
+
+
             successAlert('Siparişiniz tamamlandı','Siparişinizin durumunu siparislerim adlı kısımdan bakabilirsiniz','index.php');
              }
     
