@@ -11,7 +11,7 @@
 
 # Eklenen özellikler
 - Giriş ve kayıt olma işlemi.
-- Admin panelden kupon kodu oluşturma ve bunun sipariş tarafında kontrolü.
+- Admin panelden kampanya kodu oluşturma ve bunun sipariş tarafında kontrolü.
 - Ürün stok kontrolü onaylanan siparişe göre güncellenmesi.
 - Kampanya kodu aktif edilince özel indirimlerin yapılması:
   - 1000TL-%10
