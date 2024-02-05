@@ -1,4 +1,4 @@
-# TurkTicaretNetCase
+# Case
   EYMEN NAVDAR -> eymennavdar@gmail.com
 
  - XAMPP 3.3.0 üzerinde geliştirildi
