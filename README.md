@@ -30,6 +30,7 @@
  - BackEnd kısımları genel olarak actions klasörü içerisinde.
  - Test hesabı ve Admin  = a@gmail.com şifre = 123
  - Veritabanı database adlı klasörün içerisinde.
+ - Actions içindeki Buyorder.php içinde php mailleri düzenlemeyi unutmayın
 
 
 
