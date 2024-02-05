@@ -106,8 +106,8 @@ try {
                 $mail->isSMTP();                                           
                 $mail->Host       = 'smtp-mail.outlook.com';                     
                 $mail->SMTPAuth   = true;                                  
-                $mail->Username   = 'biciriksozler@outlook.com';                     
-                $mail->Password   = '123456789eymen';                               
+                $mail->Username   = 'example@outlook.com';                     
+                $mail->Password   = 'PASS';                               
                 $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;            
                 $mail->Port       = 587;
                 $mail->SMTPSecure = 'STARTTLS';
